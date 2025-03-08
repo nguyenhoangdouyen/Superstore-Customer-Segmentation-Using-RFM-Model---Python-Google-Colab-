@@ -106,3 +106,20 @@ import numpy as np
 import seaborn as sns
 import squarify
 
+[In 2]:  
+# Load data into Colab  
+```python
+from google.colab import drive
+drive.mount('/content/drive')
+
+# Define the path to the project folder
+path = '/content/drive/MyDrive/Python_Nguyễn Hoàng Đỗ Uyên_RFM Project/'
+
+# Load data from Excel file
+ecommerce = pd.read_excel(path + 'ecommerce retail.xlsx', sheet_name='ecommerce retail')
+segmentation = pd.read_excel(path + 'ecommerce retail.xlsx', sheet_name='Segmentation')
+
+# Convert the files to CSV format
+ecommerce.to_csv(path + 'ecommerce.csv', index=False)
+segmentation.to_csv(path + 'segmentation.csv', index=False)
+
