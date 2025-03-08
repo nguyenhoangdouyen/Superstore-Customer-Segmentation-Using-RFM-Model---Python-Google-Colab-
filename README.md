@@ -96,8 +96,9 @@ The dataset consists of **two tables (sheets)**:
 ### 1️⃣ Data Cleaning & Preprocessing  
 
 **Step 1 : Reading and Understanding Data**
+[In 1]:  
 ```python
-# [In 1]: Import required libraries for dataframe and visualization
+# Import required libraries for dataframe and visualization
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
