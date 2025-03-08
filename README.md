@@ -47,5 +47,21 @@ In RFM analysis, each customer is assigned a score based on these three factors.
 
 ### 📌 Data Source  
 - **Source**: Provided dataset for E-commerce retail analysis  
-- **Size**: 541,910 rows × 8 columns (Sheet 1: E-commerce transactions), additional segmentation details in Sheet 2  
+- **Size**: 541,910 rows × 8 columns (Sheet 1: E-commerce retail), additional segmentation details in Sheet 2  
 - **Format**: .xlsx (Excel file with two sheets)  
+## 📊 Data Structure & Relationships  
+
+### 1️⃣ Tables Used  
+The dataset consists of **two tables (sheets)**:  
+- **Sheet 1: E-commerce Retail** – Contains transaction-level data, including order details, customer IDs, and purchase information.  
+- **Sheet 2: Segmentation** – Stores customer segments along with their RFM scores.  
+
+### 2️⃣ Table Schema & Data Snapshot  
+
+#### 📌 Sheet 1: E-commerce Retail  
+👉🏻 *(Insert a screenshot of the table schema here)*  
+- Key columns: `InvoiceNo`, `StockCode`, `Description`, `Quantity`, `InvoiceDate`, `UnitPrice`, `CustomerID`, `Country`.  
+
+#### 📌 Sheet 2: Segmentation  
+👉🏻 *(Insert a screenshot of the table schema here)*  
+- Key columns: `Segment`, `RFM Score`.  
