@@ -12,7 +12,4 @@ Tools Used: Python
 ### Objective ###
 
 📖 **What is this project about?**  
-- This project aims to segment SuperStore's customers using the **RFM (Recency, Frequency, Monetary) model** to identify valuable customer groups.  
-- The Marketing team wants to launch personalized campaigns for customer retention and acquisition during the holiday season. However, due to the large dataset, manual segmentation is no longer feasible.  
-- The Data Analytics team is tasked with implementing the RFM segmentation process using **Python (Colab)** to classify customers into different segments.  
-- The approach includes **data preparation, RFM score calculation, segmentation, visualization, and actionable recommendations** for the Marketing and Sales teams.  
+The Marketing team wants to launch personalized campaigns for customer retention and acquisition during the holiday season. However, due to the large dataset, manual segmentation is no longer feasible. To address this, the Data Analytics team is tasked with implementing the **RFM (Recency, Frequency, Monetary) model** using **Python (Colab)** to classify customers into different segments. This project involves **data preparation, RFM score calculation, segmentation, visualization, and providing actionable recommendations** for the Marketing and Sales teams to optimize their strategies.  
