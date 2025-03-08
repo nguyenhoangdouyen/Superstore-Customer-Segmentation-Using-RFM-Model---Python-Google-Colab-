@@ -108,8 +108,8 @@ import squarify
 ```
 
 [In 2]:  
-# Load data into Colab  
 ```python
+# Load data into Colab  
 from google.colab import drive
 drive.mount('/content/drive')
 
