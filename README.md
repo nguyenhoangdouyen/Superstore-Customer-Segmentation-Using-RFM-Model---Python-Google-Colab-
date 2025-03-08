@@ -134,4 +134,3 @@ ecommerce.head()
 ![Image](https://github.com/user-attachments/assets/3ab89282-182e-4aee-aac1-061d64a9d7f9)
 
 
-
