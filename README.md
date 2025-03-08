@@ -42,3 +42,10 @@ By applying RFM, businesses can segment customers based on their value, allowing
 **🛠️ How does RFM work?**
 
 In RFM analysis, each customer is assigned a score based on these three factors. The data is then used to categorize customers into segments, helping businesses identify key audiences for targeted marketing and sales strategies.  
+
+## 📂 Dataset Description & Data Structure  
+
+### 📌 Data Source  
+- **Source**: Provided dataset for E-commerce retail analysis  
+- **Size**: 541,910 rows × 8 columns (Sheet 1: E-commerce transactions), additional segmentation details in Sheet 2  
+- **Format**: .xlsx (Excel file with two sheets)  
