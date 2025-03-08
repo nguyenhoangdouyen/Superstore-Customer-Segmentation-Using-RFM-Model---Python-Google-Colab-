@@ -1,4 +1,4 @@
-# **📊 Project:Superstore Customer Segmentation Using RFM Model (Python - Colab)** #
+![image](https://github.com/user-attachments/assets/4316057d-2721-4134-b25b-634cc0a30bfe)# **📊 Project:Superstore Customer Segmentation Using RFM Model (Python - Colab)** #
 Author: Nguyễn Hoàng Đỗ Uyên
 Date: 07/10/2001
 Tools Used: Python
@@ -94,3 +94,12 @@ The dataset consists of **two tables (sheets)**:
 ## ⚒️ **Main Process** ##
 
 ### 1️⃣ Data Cleaning & Preprocessing  
+
+**Step 1 : Reading and Understanding Data**
+```python
+# Import required libraries for dataframe and visualization
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+import seaborn as sns
+import squarify
