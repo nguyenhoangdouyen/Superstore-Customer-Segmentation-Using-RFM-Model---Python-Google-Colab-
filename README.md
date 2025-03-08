@@ -123,4 +123,15 @@ segmentation = pd.read_excel(path + 'ecommerce retail.xlsx', sheet_name='Segment
 # Convert the files to CSV format
 ecommerce.to_csv(path + 'ecommerce.csv', index=False)
 segmentation.to_csv(path + 'segmentation.csv', index=False)
+```
+
+[In 3]:  
+```python
+# Print the first five rows of the dataset
+ecommerce.head()
+```
+[Out 3]:  
+![Image](https://github.com/user-attachments/assets/3ab89282-182e-4aee-aac1-061d64a9d7f9)
+
+
 
