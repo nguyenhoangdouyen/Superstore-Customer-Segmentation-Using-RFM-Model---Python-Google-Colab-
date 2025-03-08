@@ -59,9 +59,34 @@ The dataset consists of **two tables (sheets)**:
 ### 2️⃣ Table Schema & Data Snapshot  
 
 #### 📌 Sheet 1: E-commerce Retail  
-👉🏻 *(Insert a screenshot of the table schema here)*  
+### 📋 Table Schema: E-commerce Retail  
+
+| Column Name  | Data Type         | Description  |  
+|-------------|-----------------|--------------|  
+| **InvoiceNo**  | `object`  | Unique invoice number for each transaction (6-digit). If it starts with 'C', it indicates a cancellation. |  
+| **StockCode**  | `object`  | Unique product (item) code (5-digit). |  
+| **Description**  | `object`  | Product (item) name. |  
+| **Quantity**  | `int64`  | The number of units purchased per transaction. |  
+| **InvoiceDate**  | `datetime64[ns]`  | Date and time when the transaction occurred. |  
+| **UnitPrice**  | `float64`  | Price per unit of the product in sterling. |  
+| **CustomerID**  | `float64`  | Unique 5-digit identifier for each customer. |  
+| **Country**  | `object`  | Name of the country where the customer resides. |  
 - Key columns: `InvoiceNo`, `StockCode`, `Description`, `Quantity`, `InvoiceDate`, `UnitPrice`, `CustomerID`, `Country`.  
 
 #### 📌 Sheet 2: Segmentation  
-👉🏻 *(Insert a screenshot of the table schema here)*  
+### 📊 Customer Segmentation & RFM Scores  
+
+| **Segment**              | **RFM Score**  |  
+|-------------------------|-----------------------------------------------------------|  
+| **Champions**            | 555, 554, 544, 545, 454, 455, 445  |  
+| **Loyal**                | 543, 444, 435, 355, 354, 345, 344, 335  |  
+| **Potential Loyalist**   | 553, 551, 552, 541, 542, 533, 532, 531, 452, 451, 442, 441, 431, 453, 433, 432, 423, 353, 352, 351, 342, 341, 333, 323  |  
+| **New Customers**        | 512, 511, 422, 421, 412, 411, 311  |  
+| **Promising**            | 525, 524, 523, 522, 521, 515, 514, 513, 425, 424, 413, 414, 415, 315, 314, 313  |  
+| **Need Attention**       | 535, 534, 443, 434, 343, 334, 325, 324  |  
+| **About To Sleep**       | 331, 321, 312, 221, 213, 231, 241, 251  |  
+| **At Risk**              | 255, 254, 245, 244, 253, 252, 243, 242, 235, 234, 225, 224, 153, 152, 145, 143, 142, 135, 134, 133, 125, 124  |  
+| **Cannot Lose Them**     | 155, 154, 144, 214, 215, 115, 114, 113  |  
+| **Hibernating Customers** | 332, 322, 233, 232, 223, 222, 132, 123, 122, 212, 211  |  
+| **Lost Customers**       | 111, 112, 121, 131, 141, 151  |  
 - Key columns: `Segment`, `RFM Score`.  
