@@ -89,4 +89,8 @@ The dataset consists of **two tables (sheets)**:
 | **Cannot Lose Them**     | 155, 154, 144, 214, 215, 115, 114, 113  |  
 | **Hibernating Customers** | 332, 322, 233, 232, 223, 222, 132, 123, 122, 212, 211  |  
 | **Lost Customers**       | 111, 112, 121, 131, 141, 151  |  
-- Key columns: `Segment`, `RFM Score`.  
+- Key columns: `Segment`, `RFM Score`.
+
+## ⚒️ **Main Process** ##
+
+### 1️⃣ Data Cleaning & Preprocessing  
