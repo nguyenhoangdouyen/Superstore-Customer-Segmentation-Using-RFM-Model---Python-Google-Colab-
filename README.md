@@ -105,7 +105,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 import squarify
-
+```
 
 [In 2]:  
 # Load data into Colab  
