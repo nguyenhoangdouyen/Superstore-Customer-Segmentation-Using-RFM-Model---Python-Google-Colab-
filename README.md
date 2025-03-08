@@ -27,3 +27,15 @@ Tools Used: Python
 ✔️ Which customer groups should be prioritized for retention and promotional campaigns?  
 ✔️ What actionable insights can help improve marketing strategies and customer engagement?  
 ✔️ What strategies should be applied to different customer segments to maximize value?  
+
+### 📊 RFM Analysis Overview  
+
+**🔎 Why use RFM?**  
+RFM (Recency, Frequency, Monetary) is a customer analysis technique based on purchasing behavior.  
+- **Recency**: Measures the time elapsed since a customer's last purchase.  
+- **Frequency**: Evaluates how often a customer makes transactions.  
+- **Monetary**: Calculates the total amount spent by the customer.  
+By applying RFM, businesses can segment customers based on their value, allowing them to optimize marketing and customer engagement strategies.  
+
+**🛠️ How does RFM work?**
+In RFM analysis, each customer is assigned a score based on these three factors. The data is then used to categorize customers into segments, helping businesses identify key audiences for targeted marketing and sales strategies.  
