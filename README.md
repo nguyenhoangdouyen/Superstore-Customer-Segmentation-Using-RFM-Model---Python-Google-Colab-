@@ -141,4 +141,5 @@ ecommerce.head()
 ecommerce.head()
 ```
 [Out 4]:  
+
 ![Image](https://github.com/user-attachments/assets/deae7032-863a-4694-9229-ac9e649efe18)
