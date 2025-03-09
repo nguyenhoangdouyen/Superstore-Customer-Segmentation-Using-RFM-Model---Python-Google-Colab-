@@ -152,7 +152,18 @@ ecommerce.describe()
 [Out 5]:
 
 ![Image](https://github.com/user-attachments/assets/6731170f-672e-4c4b-8493-a9721f239813)
+
 ⚡During the initial data exploration, it was observed that the **Quantity** and **Unit Price** columns contain negative values. This is not logically valid and requires further investigation. Possible actions include:
 - Checking for data entry errors.
 - Identifying whether negative values indicate refunds or cancellations.
 - Removing or adjusting incorrect data points to ensure accuracy in analysis.
+
+[In 6]:
+### Analyze Stock Code and Invoice Number
+```python
+# Deeper Analysis on Stock Code and Invoice No
+stock_code = ecommerce[['StockCode','InvoiceNo']].groupby('StockCode')['InvoiceNo'].agg('count').reset_index().sort_values(by='InvoiceNo', ascending=False)
+print(stock_code.head(5))
+print(stock_code.tail(5))
+print(len(stock_code))
+```
