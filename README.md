@@ -188,5 +188,21 @@ During the initial data exploration, a mismatch was identified between **Stock C
 
 - Some products may have multiple descriptions under the same stock code.
 - Certain descriptions might not be linked to any valid stock code.
-- Data inconsistencies due to missing, du
+- Data inconsistencies due to missing, duplicated, or improperly recorded stock codes.
 
+It is recommended to conduct additional validation and data cleaning to ensure consistency and accuracy in analysis.
+
+[In 8]:
+### 📂 Export Data for Double-Checking Orders
+
+To validate and review the processed data, export the **description_check** dataframe to an Excel file.
+
+```python
+description_check.to_excel(path + 'description_check.xlsx')
+
+[Out 8]:
+![Image](https://github.com/user-attachments/assets/73a60e98-6a2a-4925-8e38-7bd9e1a1e1bc)
+
+### ⚠ Manual Review Required
+
+Some orders contain incorrect **descriptions** → Perform a **manual check** and mark them as **errors** to facilitate further processing.
