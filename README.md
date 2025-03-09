@@ -167,6 +167,7 @@ print(stock_code.tail(5))
 print(len(stock_code))
 ```
 [Out 6]:
+
 ![Image](https://github.com/user-attachments/assets/4ee24107-c599-4c7b-86c3-ed09cde6c8b3)
 
 [In 7]:
@@ -181,4 +182,11 @@ print(len(description_check))  # Total unique descriptions
 
 ![Image](https://github.com/user-attachments/assets/9cdb5e74-1ef8-4736-9f6b-8022337e5a55)
 
+### ⚡ Data Quality Insights
+
+During the initial data exploration, a mismatch was identified between **Stock Code** count (4070) and **Description** count (4223). This inconsistency suggests potential data quality issues that require further investigation. Possible reasons include:
+
+- Some products may have multiple descriptions under the same stock code.
+- Certain descriptions might not be linked to any valid stock code.
+- Data inconsistencies due to missing, du
 
