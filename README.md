@@ -199,6 +199,7 @@ To validate and review the processed data, export the **description_check** data
 
 ```python
 description_check.to_excel(path + 'description_check.xlsx')
+```
 
 [Out 8]:
 ![Image](https://github.com/user-attachments/assets/73a60e98-6a2a-4925-8e38-7bd9e1a1e1bc)
