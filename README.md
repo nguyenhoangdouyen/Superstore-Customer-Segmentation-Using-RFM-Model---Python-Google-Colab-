@@ -131,5 +131,6 @@ segmentation.to_csv(path + 'segmentation.csv', index=False)
 ecommerce.head()
 ```
 [Out 3]:  
+
 ![Image](https://github.com/user-attachments/assets/91b78596-07a3-4d9d-9fd1-a824b590a0e4)
 
