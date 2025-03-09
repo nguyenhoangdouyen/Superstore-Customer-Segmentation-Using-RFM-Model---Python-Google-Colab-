@@ -206,3 +206,38 @@ description_check.to_excel(path + 'description_check.xlsx')
 ### ⚠ Manual Review Required
 
 Some orders contain incorrect **descriptions** → Perform a **manual check** and mark them as **errors** to facilitate further processing.
+
+### 🔄 Merging Data for Error Identification
+
+[In 9]:
+To obtain a complete dataset with flagged erroneous orders, merge the **description_check_update** file with the **ecommerce** dataset.
+
+```python
+ecommerce_update = ecommerce.merge(description_check_update[['Description','Error']], how='left', on='Description')
+```
+### 🔍 Checking If Negative Quantities Indicate Cancellations
+
+[In 10]:
+To verify whether transactions with negative **Quantity** values are due to order cancellations (indicated by **InvoiceNo** starting with "C"), apply the following condition:
+
+```python
+ecommerce_update['InvoiceNo'] = ecommerce_update['InvoiceNo'].astype(str)
+ecommerce_update['cancel_invoice'] = ecommerce_update.apply(
+    lambda x: True if x['Quantity'] < 0 and x['InvoiceNo'].startswith('C') else False, axis=1)
+```
+
+### 🚨 Identifying Invalid Transactions
+
+After flagging cancellations, verify if there are any transactions where **Quantity** is negative, but the **InvoiceNo** does not start with "C". These may indicate data inconsistencies.
+
+[In 11]:
+After flagging cancellations, verify if there are any transactions where **Quantity** is negative, but the **InvoiceNo** does not start with "C". These may indicate data inconsistencies.
+
+```python
+check_invalid_invoice = ecommerce_update[(ecommerce_update['cancel_invoice'] == False) & (ecommerce_update['Quantity'] < 0)]
+print(len(check_invalid_invoice))  # Number of inconsistent records
+check_invalid_invoice.head()  # Preview of invalid records
+```
+
+
+
