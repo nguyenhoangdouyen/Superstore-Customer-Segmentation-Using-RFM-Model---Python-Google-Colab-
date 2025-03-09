@@ -143,3 +143,16 @@ ecommerce.head()
 [Out 4]:  
 
 ![Image](https://github.com/user-attachments/assets/deae7032-863a-4694-9229-ac9e649efe18)
+
+[In 5]:
+```python
+# Check Data Summary
+ecommerce.describe()
+```
+[Out 5]:
+
+![Image](https://github.com/user-attachments/assets/6731170f-672e-4c4b-8493-a9721f239813)
+⚡During the initial data exploration, it was observed that the **Quantity** and **Unit Price** columns contain negative values. This is not logically valid and requires further investigation. Possible actions include:
+- Checking for data entry errors.
+- Identifying whether negative values indicate refunds or cancellations.
+- Removing or adjusting incorrect data points to ensure accuracy in analysis.
