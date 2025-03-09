@@ -134,3 +134,11 @@ ecommerce.head()
 
 ![Image](https://github.com/user-attachments/assets/91b78596-07a3-4d9d-9fd1-a824b590a0e4)
 
+
+[In 4]:  
+```python
+# Print the first five rows of the dataset
+ecommerce.head()
+```
+[Out 4]:  
+![Image](https://github.com/user-attachments/assets/deae7032-863a-4694-9229-ac9e649efe18)
