@@ -193,11 +193,10 @@ During the initial data exploration, a mismatch was identified between **Stock C
 It is recommended to conduct additional validation and data cleaning to ensure consistency and accuracy in analysis.
 
 [In 8]:
-### 📂 Export Data for Double-Checking Orders
-
 To validate and review the processed data, export the **description_check** dataframe to an Excel file.
 
 ```python
+### Export Data for Double-Checking Orders
 description_check.to_excel(path + 'description_check.xlsx')
 ```
 
