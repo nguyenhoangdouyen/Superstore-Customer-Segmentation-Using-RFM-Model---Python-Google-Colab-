@@ -159,7 +159,6 @@ ecommerce.describe()
 - Removing or adjusting incorrect data points to ensure accuracy in analysis.
 
 [In 6]:
-### Analyze Stock Code and Invoice Number
 ```python
 # Deeper Analysis on Stock Code and Invoice No
 stock_code = ecommerce[['StockCode','InvoiceNo']].groupby('StockCode')['InvoiceNo'].agg('count').reset_index().sort_values(by='InvoiceNo', ascending=False)
@@ -167,3 +166,17 @@ print(stock_code.head(5))
 print(stock_code.tail(5))
 print(len(stock_code))
 ```
+[Out 6]:
+![Image](https://github.com/user-attachments/assets/4ee24107-c599-4c7b-86c3-ed09cde6c8b3)
+
+[In 7]:
+
+```python
+# Check frequency of each product description. This helps identify the most and least common products in transactions
+description_check = ecommerce[['Description','InvoiceNo']].groupby(['Description']).count().reset_index().sort_values(by=['InvoiceNo'], ascending=False)
+print(description_check.head())  # Top 5 most common descriptions
+print(len(description_check))  # Total unique descriptions
+```
+[Out 7]:
+
+![Image](https://github.com/user-attachments/assets/9cdb5e74-1ef8-4736-9f6b-8022337e5a55)
