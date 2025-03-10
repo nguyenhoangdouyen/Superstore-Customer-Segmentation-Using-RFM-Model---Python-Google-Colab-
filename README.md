@@ -254,7 +254,20 @@ print(len(ecommerce_update[ecommerce_update['UnitPrice'] < 0 ]))  # Number of in
 print(ecommerce_update[ecommerce_update['UnitPrice'] < 0 ].head())  # Preview of invalid records
 print(len(ecommerce_update[ecommerce_update['UnitPrice'] < 0 ]))  # Number of invalid records
 ecommerce_update[ecommerce_update['UnitPrice'] < 0 ].head()  # Preview of invalid records
+```
 
 [Out 12 ]:
 
 ![Image](https://github.com/user-attachments/assets/32e6169f-c53e-472a-a6df-88863817444a)
+
+## ✨ General Observations
+
+### **Data Types:**
+The following columns have inappropriate data types and should be converted to **strings** for easier processing:
+- **InvoiceNo**, **StockCode**, **Description**, **CustomerID**, **Country**.
+
+### **Data Values:**
+- **Quantity < 0 & InvoiceNo starts with 'C'** → These transactions indicate **canceled orders** and should be **removed** from the dataset.
+- **Quantity < 0 but InvoiceNo does NOT start with 'C'** → These records contain **incorrect descriptions** and should be **excluded** from the dataset.
+- **UnitPrice < 0 & incorrect Description** → These are **invalid transactions** and should also be **removed** from the dataset.
+
