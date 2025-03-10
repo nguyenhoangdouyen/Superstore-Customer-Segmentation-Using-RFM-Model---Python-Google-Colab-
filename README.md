@@ -561,6 +561,7 @@ squarify.plot(
 plt.title("Contribution by Segment", fontsize=10)
 plt.axis('off')  # Hide axes for better visualization
 plt.show()
+```
 
 [Out 25]:
 
