@@ -563,5 +563,6 @@ plt.axis('off')  # Hide axes for better visualization
 plt.show()
 
 [Out 25]:
+
 ![image](https://github.com/user-attachments/assets/3ab19206-d207-4783-8dfb-fd9c150295cc)
 
