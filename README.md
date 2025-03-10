@@ -304,8 +304,10 @@ ecommerce_update = ecommerce_update[ecommerce_update['UnitPrice'] > 0]
 ```
 
 🛠 Checking Missing Values in CustomerID & Error Columns
-```
-python
+
+[In 15]:
+
+```python
 import missingno as msno
 import numpy as np
 
@@ -324,5 +326,29 @@ missing_ecommerce = pd.DataFrame.from_dict(missing_dict)
 
 # Display missing values summary
 print(missing_ecommerce)
+```
 
+[Out 15]:
+![Image](https://github.com/user-attachments/assets/35e54952-05be-4430-8115-45d1337d7b0b)
+
+![Image](https://github.com/user-attachments/assets/184f9ea7-024a-497b-90ec-58a849535aee)
+
+#### 🔍 Investigating Missing CustomerID
+
+Before executing the code: It is important to check if the missing **CustomerID** is concentrated in specific countries or time periods before deciding how to handle it.
+
+**🧐 Key Findings:**
+- **Missing CustomerID** values are **spread across all months & countries**, not just a specific region or time period.
+- Likely due to **human errors** (e.g., incomplete updates) or **system recording issues**.
+
+**Hypothesis:**
+- **Missing CustomerID** might be concentrated in the **United Kingdom** or could be **distributed evenly** across all countries.
+- These missing **CustomerID** values could be limited to specific **time periods** or may be **spread evenly** across the months.
+
+**✅ Solution:**
+Since **CustomerID is essential**, drop missing values to maintain data integrity.
+
+```python
+# Remove transactions with missing CustomerID
+ecommerce_update = ecommerce_update.dropna(subset=['CustomerID'])
 ```
