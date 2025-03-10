@@ -182,7 +182,7 @@ print(len(description_check))  # Total unique descriptions
 
 ![Image](https://github.com/user-attachments/assets/9cdb5e74-1ef8-4736-9f6b-8022337e5a55)
 
-### ⚡ Data Quality Insights
+#### ⚡ Data Quality Insights
 
 During the initial data exploration, a mismatch was identified between **Stock Code** count (4070) and **Description** count (4223). This inconsistency suggests potential data quality issues that require further investigation. Possible reasons include:
 
@@ -196,26 +196,25 @@ It is recommended to conduct additional validation and data cleaning to ensure c
 To validate and review the processed data, export the **description_check** dataframe to an Excel file.
 
 ```python
-### Export Data for Double-Checking Orders
+# Export Data for Double-Checking Orders
 description_check.to_excel(path + 'description_check.xlsx')
 ```
 
 [Out 8]:
 ![Image](https://github.com/user-attachments/assets/73a60e98-6a2a-4925-8e38-7bd9e1a1e1bc)
 
-### ⚠ Manual Review Required
+#### ⚠ Manual Review Required
 
 Some orders contain incorrect **descriptions** → Perform a **manual check** and mark them as **errors** to facilitate further processing.
-
-### 🔄 Merging Data for Error Identification
 
 [In 9]:
 To obtain a complete dataset with flagged erroneous orders, merge the **description_check_update** file with the **ecommerce** dataset.
 
 ```python
+#Merging Data for Error Identification
 ecommerce_update = ecommerce.merge(description_check_update[['Description','Error']], how='left', on='Description')
 ```
-### 🔍 Checking If Negative Quantities Indicate Cancellations
+#### 🔍 Checking If Negative Quantities Indicate Cancellations
 
 [In 10]:
 To verify whether transactions with negative **Quantity** values are due to order cancellations (indicated by **InvoiceNo** starting with "C"), apply the following condition:
@@ -226,7 +225,7 @@ ecommerce_update['cancel_invoice'] = ecommerce_update.apply(
     lambda x: True if x['Quantity'] < 0 and x['InvoiceNo'].startswith('C') else False, axis=1)
 ```
 
-### 🚨 Identifying Invalid Transactions
+#### 🚨 Identifying Invalid Transactions
 
 After flagging cancellations, verify if there are any transactions where **Quantity** is negative, but the **InvoiceNo** does not start with "C". These may indicate data inconsistencies.
 
@@ -242,7 +241,7 @@ check_invalid_invoice.head()  # Preview of invalid records
 
 ![Image](https://github.com/user-attachments/assets/f6708de9-d4fb-45a7-be28-ca4dfb886f99)
 
-### ⚠ Further Investigation: Negative Quantity Without Cancellation
+#### ⚠ Further Investigation: Negative Quantity Without Cancellation
 
 After checking, it was found that some orders **do not have "C" in InvoiceNo** but still have **negative Quantity**. To analyze the cause, export the file for further review.
 
@@ -260,7 +259,7 @@ ecommerce_update[ecommerce_update['UnitPrice'] < 0 ].head()  # Preview of invali
 
 ![Image](https://github.com/user-attachments/assets/32e6169f-c53e-472a-a6df-88863817444a)
 
-### ✨ General Observations
+#### ✨ General Observations
 
 **Data Types:**
 The following columns have inappropriate data types and should be converted to **strings** for easier processing:
