@@ -492,8 +492,6 @@ sns.boxplot(data=RFM_update, x='Monetary')
 
 **🔍Assign RFM scores using Qcut** 
 
-```
-
 [In 23]:
 ```python
 # Recency score: Lower values indicate more recent purchases, so assign higher scores to lower recency values  
