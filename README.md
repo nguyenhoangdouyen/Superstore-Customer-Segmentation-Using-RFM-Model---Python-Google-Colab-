@@ -531,3 +531,37 @@ RFM_final
 [Out 24]:
 
 ![Image](https://github.com/user-attachments/assets/e597bac7-f7f6-4cce-baf6-2108d3d2b177)
+
+## 3️⃣ Visualization & Analysis
+**1. Contribution by Segmentation**
+
+[In 25]:
+
+```python
+# Contribution by Segmentation
+
+# Count the number of customers in each segment
+count_segment_by_users = RFM_final[['CustomerID', 'Segment']].groupby(['Segment'])['CustomerID'].count().reset_index().rename(columns={'CustomerID': 'Count'})
+
+# Calculate the percentage of each segment
+count_segment_by_users['percent_segment_by_users'] = round(count_segment_by_users['Count'] / count_segment_by_users['Count'].sum() * 100)
+
+# Format segment names to include percentage
+count_segment_by_users['Segment'] = count_segment_by_users['Segment'] + ' ' + count_segment_by_users['percent_segment_by_users'].astype(str) + '%'
+
+# Plot a treemap to visualize segment contribution
+plt.figure(figsize=(12, 8))
+squarify.plot(
+    sizes=count_segment_by_users['percent_segment_by_users'], 
+    label=count_segment_by_users['Segment'], 
+    color=sns.color_palette("Spectral"), 
+    alpha=0.8, 
+    text_kwargs={'fontsize': 8}
+)
+plt.title("Contribution by Segment", fontsize=10)
+plt.axis('off')  # Hide axes for better visualization
+plt.show()
+
+[Out 25]:
+![image](https://github.com/user-attachments/assets/3ab19206-d207-4783-8dfb-fd9c150295cc)
+
