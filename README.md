@@ -710,8 +710,8 @@ Based on the above analysis, we can see that some segments share similar charact
 
 **5. Distribution of RFM over Time**
 
-# Merge `RFM_final` & `ecommerce_update` with all columns from `ecommerce_update`
 ```python
+# Merge `RFM_final` & ecommerce_update
 RFM_final_merge = RFM_final.merge(ecommerce_update, on='CustomerID', how='left')
 ```
 
@@ -768,8 +768,61 @@ plt.show()
 
 ➡️ **Further analysis is needed** to determine **which segments** are driving these increases and decreases.
 
+**6. Group Segment by Contribution**
+### Grouping into Segments
 
+[In 31]:
+```python
+# Classify into Group Segments
+RFM_final['Group Segment'] = RFM_final['Segment'].apply(
+    lambda x: 'High Risk Customers' if x in high_risk else
+              'Loyal & High Value' if x in loyal_high_value else
+              'New & Potential' if x in potential else
+              'Inactive & Lost' if x in lost else 'Others'
+)
 
+# Count the number of customers in each Group Segment
+group_counts = RFM_final['Group Segment'].value_counts()
+
+# Calculate the percentage share of each group
+group_percentages = (group_counts / len(RFM_final)) * 100
+
+# Plot pie chart
+plt.figure(figsize=(8, 8))
+plt.pie(group_percentages, labels=group_percentages.index, autopct='%1.1f%%', startangle=140)
+plt.axis('equal')
+plt.title('Group Segment by Contribution')
+
+plt.show()
+```
+
+[Out 31]:
+
+![image](https://github.com/user-attachments/assets/0ce9df4f-60fa-4579-a84c-28972a6573e2)
+
+**7. Segment Distribution Across Countries**
+Since **UK contributes significantly to the total**, the overall chart mainly represents the UK market. To gain clearer insights into other countries, we need to exclude UK data.
+
+[In 32]:
+```python
+# Calculate segment distribution by country
+segmentation_by_location = RFM_final_merge.groupby(['Country', 'Group Segment'])['CustomerID'].nunique().unstack()
+
+# Remove 'United Kingdom'
+segment_without_UK = segmentation_by_location.drop(index=['United Kingdom'])
+
+# Plot the data
+segment_without_UK.plot(kind='barh', stacked=True, figsize=(20, 8))
+plt.xlabel('Country')
+plt.ylabel('Number of Customers')
+plt.title('Distribution of Segment by Country Without UK')
+plt.xticks(rotation=45, fontsize=8)
+plt.legend(title='Segment')
+plt.show()
+```
+
+[Out 32]:
+![image](https://github.com/user-attachments/assets/efc0d66f-e3e6-4c4a-808b-43c4dce3dff1)
 
 
 
