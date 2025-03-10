@@ -647,20 +647,72 @@ plt.show()
 ![image](https://github.com/user-attachments/assets/98b9e2f0-aa9e-43a0-98b2-0486db1603dd)
 
 
-### **📊 Key Findings**###
-| Segment              | R (Recency) | F (Frequency) | M (Monetary) | Nhận xét |
+### **📊 Observations **
+From the four analysis charts on contribution, monetary, recency, and frequency for each segment, we can analyze the behavior of the 11 segments as follows:
+
+| Segment              | R (Recency) | F (Frequency) | M (Monetary) | Notes |
 |----------------------|------------|--------------|-------------|----------|
-| **Champions (17%)**  | R **rất thấp** (~10-20 ngày) | F **rất cao** (~200+ lần) | M **cao nhất** (~27% doanh thu) | Nhóm khách hàng tốt nhất, đóng góp doanh thu lớn, cần tiếp tục nuôi dưỡng. |
-| **Loyal (9%)**  | R **trung bình** (~60 ngày) | F **cao** (~180 lần) | M **khá cao** (~13% doanh thu) | Nhóm khách trung thành, có tần suất mua hàng ổn định, cần duy trì chăm sóc. |
-| **Potential Loyalist (12%)**  | R **trung bình** (~50 ngày) | F **trung bình** (~100 lần) | M **trung bình** (~7% doanh thu) | Nhóm có tiềm năng trở thành khách hàng trung thành, cần thêm động lực. |
-| **New Customers (8%)**  | R **trung bình** (~40 ngày) | F **thấp** (~50 lần) | M **thấp** (~3% doanh thu) | Tệp khách hàng mới, cần thêm chiến lược giữ chân và kích thích mua lại. |
-| **Promising (4%)**  | R **trung bình** (~60-70 ngày) | F **trung bình** (~50-80 lần) | M **thấp** (~4% doanh thu) | Nhóm khách có dấu hiệu quay lại nhưng chưa mạnh, cần push thêm. |
-| **Need Attention (6%)**  | R **cao** (~120+ ngày) | F **trung bình/thấp** (~50 lần) | M **thấp** (~3-4% doanh thu) | Nhóm từng có mức độ tương tác nhưng đang suy giảm, có thể bị thu hút bởi đối thủ. |
-| **At Risk (11%)**  | R **cao** (~120 ngày) | F **trung bình** (~100 lần) | M **cao** (~10-14% doanh thu) | Nhóm từng có giá trị cao nhưng đang giảm dần sự gắn kết, có nguy cơ mất đi. |
-| **About to Sleep (4%)**  | R **cao** (~100 ngày) | F **thấp** (~30 lần) | M **thấp** (~3% doanh thu) | Nhóm có dấu hiệu rời đi, cần chiến lược kéo lại trước khi quá muộn. |
-| **Cannot Lose Them (3%)**  | R **rất cao** (~180+ ngày) | F **trung bình** (~100 lần) | M **trung bình** (~4-5% doanh thu) | Nhóm khách hàng từng chi tiêu tốt nhưng đang rời xa thương hiệu. Cần chiến lược giữ chân mạnh. |
-| **Hibernating (18%)**  | R **rất cao** (~200 ngày) | F **rất thấp** (~10-20 lần) | M **cực thấp** (~2% doanh thu) | Khách hàng từng mua nhưng đã rời xa thương hiệu trong thời gian dài. |
-| **Lost Customers (9%)**  | R **cực cao** (220+ ngày) | F **cực thấp** (~5-10 lần) | M **rất thấp** (~1-2% doanh thu) | Nhóm gần như mất hẳn, khả năng quay lại thấp nếu không có tác động mạnh. |
+| **Champions (17%)**  | R **very low** (~10-20 days) | F **very high** (~200+ times) | M **highest** (~27% revenue) | The best customer group, contributing significantly to revenue. Should be nurtured continuously. |
+| **Loyal (9%)**  | R **moderate** (~60 days) | F **high** (~180 times) | M **fairly high** (~13% revenue) | Loyal customers with a stable purchasing frequency. Should be maintained and cared for. |
+| **Potential Loyalist (12%)**  | R **moderate** (~50 days) | F **moderate** (~100 times) | M **moderate** (~7% revenue) | Potentially loyal customers who need more incentives to convert. |
+| **New Customers (8%)**  | R **moderate** (~40 days) | F **low** (~50 times) | M **low** (~3% revenue) | Newly acquired customers who need retention strategies to encourage repeat purchases. |
+| **Promising (4%)**  | R **moderate** (~60-70 days) | F **moderate** (~50-80 times) | M **low** (~4% revenue) | Customers showing signs of returning but not strongly engaged yet. Needs additional push. |
+| **Need Attention (6%)**  | R **high** (~120+ days) | F **moderate/low** (~50 times) | M **low** (~3-4% revenue) | Customers with past engagement but declining activity. May be attracted by competitors. |
+| **At Risk (11%)**  | R **high** (~120 days) | F **moderate** (~100 times) | M **high** (~10-14% revenue) | Previously high-value customers who are gradually disengaging. High risk of churn. |
+| **About to Sleep (4%)**  | R **high** (~100 days) | F **low** (~30 times) | M **low** (~3% revenue) | Customers showing signs of leaving. Requires re-engagement strategies before it's too late. |
+| **Cannot Lose Them (3%)**  | R **very high** (~180+ days) | F **moderate** (~100 times) | M **moderate** (~4-5% revenue) | Previously high-spending customers who are drifting away. Strong retention efforts needed. |
+| **Hibernating (18%)**  | R **very high** (~200 days) | F **very low** (~10-20 times) | M **very low** (~2% revenue) | Customers who purchased before but have been inactive for a long time. |
+| **Lost Customers (9%)**  | R **extremely high** (220+ days) | F **extremely low** (~5-10 times) | M **very low** (~1-2% revenue) | Nearly lost customers with a very low chance of returning without strong intervention. |
+
+### **📊 Key Findings**
+Based on the above analysis, we can see that some segments share similar characteristics. Therefore, we can group them into segment clusters for easier analysis and to propose suitable strategies as follows:
+
+---
+
+## **Group 1: High-Risk Customers (24%)**  
+
+📌 **Includes:** Cannot Lose Them (3%), At Risk (11%), About to Sleep (4%), Need Attention (6%)  
+
+💡 **Reason for grouping:**  
+- These customers **previously had high or moderate purchase activity** but are now **showing a significant decline in engagement**.  
+- They have a **long time since their last purchase (100 - 150 days)** and previously **contributed significantly to revenue**.  
+- Without intervention, they **are likely to leave completely**.  
+
+---
+
+## **Group 2: Loyal & High-Value Customers (38%)**  
+
+📌 **Includes:** Champions (17%), Loyal (9%), Potential Loyalist (12%)  
+
+💡 **Reason for grouping:**  
+- These are customers with **high and stable purchase frequency**.  
+- They **remain highly active**, with **a relatively short time since their last purchase (10 - 50 days)**.  
+- Although their **revenue contribution varies**, they all **have long-term potential if nurtured properly**.  
+
+---
+
+## **Group 3: New & Potential Customers (25%)**  
+
+📌 **Includes:** New Customers (17%), Promising (8%)  
+
+💡 **Reason for grouping:**  
+- This group consists mostly of **new customers or those showing signs of growth**.  
+- They have **recent interactions (30 - 50 days)** but **low purchase frequency and revenue contribution**.  
+- They **have the potential to become loyal customers if they continue purchasing**.  
+
+---
+
+## **Group 4: Inactive & Lost Customers (13%)**  
+
+📌 **Includes:** Hibernating (9%), Lost Customers (4%)  
+
+💡 **Reason for grouping:**  
+- These customers are **almost entirely disengaged**, with **a very long time since their last purchase (200+ days)**.  
+- **Their purchase frequency and revenue contribution are extremely low**, making them **unlikely to return without strong intervention**.  
+
+
+
+
 
 
 
