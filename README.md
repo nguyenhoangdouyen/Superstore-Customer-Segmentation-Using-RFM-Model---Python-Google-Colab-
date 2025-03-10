@@ -768,8 +768,8 @@ plt.show()
 
 ➡️ **Further analysis is needed** to determine **which segments** are driving these increases and decreases.
 
+
 **6. Group Segment by Contribution**
-### Grouping into Segments
 
 [In 31]:
 ```python
@@ -800,6 +800,7 @@ plt.show()
 
 ![image](https://github.com/user-attachments/assets/0ce9df4f-60fa-4579-a84c-28972a6573e2)
 
+
 **7. Segment Distribution Across Countries**
 Since **UK contributes significantly to the total**, the overall chart mainly represents the UK market. To gain clearer insights into other countries, we need to exclude UK data.
 
@@ -823,6 +824,37 @@ plt.show()
 
 [Out 32]:
 ![image](https://github.com/user-attachments/assets/efc0d66f-e3e6-4c4a-808b-43c4dce3dff1)
+
+**8. Segmentation Distribution Over Time**
+
+[In 33]:
+
+```python
+# Convert Month to correct data type
+RFM_final_merge['Month'] = pd.to_datetime(RFM_final_merge['Month'], errors='coerce')
+
+# Count customers in each Group Segment per month
+monthly_trend = RFM_final_merge.groupby(['Month', 'Group Segment']).size().reset_index(name='Count')
+
+# Plot the trend for each Group Segment over time
+plt.figure(figsize=(12, 6))
+for segment in monthly_trend['Group Segment'].unique():
+    data = monthly_trend[monthly_trend['Group Segment'] == segment]
+    plt.plot(data['Month'], data['Count'], marker='o', label=segment)
+
+plt.xlabel('Month')
+plt.ylabel('Number of Customers')
+plt.title('Trend of Group Segment')
+plt.xticks(rotation=45)
+plt.legend(title='Group Segment')
+plt.grid(True, linestyle='--', alpha=0.7)
+```
+
+[Out 33]:
+![image](https://github.com/user-attachments/assets/c9067fb5-d8ff-4dee-9f22-9a4c18d6f887)
+
+
+
 
 
 
