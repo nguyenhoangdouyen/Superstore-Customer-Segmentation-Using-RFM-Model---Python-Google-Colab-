@@ -352,3 +352,71 @@ Since **CustomerID is essential**, drop missing values to maintain data integrit
 # Remove transactions with missing CustomerID
 ecommerce_update = ecommerce_update.dropna(subset=['CustomerID'])
 ```
+
+[In 16]:
+**🔍 Check duplicate**
+### Code to check duplicates based on four columns:
+
+```python
+# Identify duplicate rows based on 'InvoiceNo', 'StockCode', 'InvoiceDate', and 'CustomerID'
+ecommerce_duplicate = ecommerce_update[ecommerce_update.duplicated(subset=['InvoiceNo', 'StockCode', 'InvoiceDate', 'CustomerID'])]
+
+# Print the number of duplicate rows found
+print(ecommerce_duplicate.shape)
+
+The result (10038, 12) means there are 10,038 duplicate rows, and they need to be detected and handled in **two cases**: 
+
+1. **Case 1 - Duplicates with the Same Quantity**: 
+   - These duplicates are likely caused by system errors (e.g., duplicate entries with the same quantity). 
+   - **Action**: Drop the duplicates because they are identical.
+
+2. **Case 2 - Duplicates with Different Quantities**:
+   - These duplicates may occur due to system recording issues (e.g., a single order being split into multiple records with different quantities). 
+   - **Action**: Sum the quantities of the duplicate entries to correct the data.
+
+[In 16]:
+
+**Detecting and Handling Duplicate Rows:** 
+
+**1. Detecting Exact Duplicate Rows:**
+   - The following code detects rows that are completely duplicated based on `InvoiceNo`, `StockCode`, `InvoiceDate`, `CustomerID`, and `Quantity`.
+   
+```python
+# Detect exact duplicate rows based on 'InvoiceNo', 'StockCode', 'InvoiceDate', 'CustomerID', and 'Quantity'
+invoice_duplicate_total = ecommerce_update[ecommerce_update.duplicated(subset=['InvoiceNo', 'StockCode', 'InvoiceDate', 'CustomerID', 'Quantity'])]
+```
+[In 17]:
+
+**2. Grouping and Aggregating Data for Exact duplicate:**
+The following code groups the data by `InvoiceNo`, `StockCode`, `InvoiceDate`, `CustomerID`, and `Quantity`, and keeps the first occurrence of other columns:
+
+```python
+# Group by 'InvoiceNo', 'StockCode', 'InvoiceDate', 'CustomerID', and 'Quantity' and keep the first occurrence of other columns
+ecommerce_update = ecommerce_update.groupby(['InvoiceNo', 'StockCode', 'InvoiceDate', 'CustomerID', 'Quantity'], as_index=False).agg({
+    'UnitPrice': 'first',          # Keep the first 'UnitPrice'
+    'Description': 'first',        # Keep the first 'Description'
+    'Country': 'first',            # Keep the first 'Country'
+    'Error': 'first',              # Keep the first 'Error'
+    'cancel_invoice': 'first',     # Keep the first 'cancel_invoice'
+    'Date': 'first',               # Keep the first 'Date'
+    'Month': 'first'               # Keep the first 'Month'
+})
+```
+[In 18]:
+**3. Grouping and Summing Quantities for Partial duplicate:**
+
+The following code groups the data by `InvoiceNo`, `StockCode`, `InvoiceDate`, and `CustomerID`, sums the `Quantity`, and keeps the first occurrence of other columns:
+
+```python
+# Group by 'InvoiceNo', 'StockCode', 'InvoiceDate', 'CustomerID' and sum the 'Quantity', keeping the first occurrence of other columns
+ecommerce_update = ecommerce_update.groupby(['InvoiceNo', 'StockCode', 'InvoiceDate', 'CustomerID'], as_index=False).agg({
+    'Quantity': 'sum',            # Sum 'Quantity' for each group
+    'UnitPrice': 'first',         # Keep the first 'UnitPrice'
+    'Description': 'first',       # Keep the first 'Description'
+    'Country': 'first',           # Keep the first 'Country'
+    'Error': 'first',             # Keep the first 'Error'
+    'cancel_invoice': 'first',    # Keep the first 'cancel_invoice'
+    'Date': 'first',              # Keep the first 'Date'
+    'Month': 'first'              # Keep the first 'Month'
+})
+```
