@@ -401,6 +401,7 @@ ecommerce_update = ecommerce_update.groupby(['InvoiceNo', 'StockCode', 'InvoiceD
 })
 ```
 [In 18]:
+
 **3. Grouping and Summing Quantities for Partial duplicate:**
 
 The following code groups the data by `InvoiceNo`, `StockCode`, `InvoiceDate`, and `CustomerID`, sums the `Quantity`, and keeps the first occurrence of other columns:
@@ -418,3 +419,52 @@ ecommerce_update = ecommerce_update.groupby(['InvoiceNo', 'StockCode', 'InvoiceD
     'Month': 'first'              # Keep the first 'Month'
 })
 ```
+
+**🔍 Check outlier**
+[In 19]:
+
+```python
+# Check outliers for the 'Recency' column
+sns.boxplot(data=RFM_df, x='Recency')
+
+# Check outliers for the 'Monetary' column
+sns.boxplot(data=RFM_df, x='Monetary')
+
+# Check outliers for the 'Frequency' column
+sns.boxplot(data=RFM_df, x='Frequency')
+```
+[Out 19]:
+
+![Image](https://github.com/user-attachments/assets/dd08a423-d0da-43a5-bbfe-24ddf6c85bcf)
+
+[In 20]:
+**🔍 Drop outlier**
+```python
+# Set the 95th percentile threshold for 'Recency'
+R_update = RFM_df['Recency'].quantile(0.95)
+
+# Set the 95th percentile threshold for 'Frequency'
+F_update = RFM_df['Frequency'].quantile(0.95)
+
+# Set the 95th percentile threshold for 'Monetary'
+M_update = RFM_df['Monetary'].quantile(0.95)
+
+# Filter out rows where any column exceeds the 95th percentile threshold
+RFM_update = RFM_df[(RFM_df['Recency'] <= R_update) & 
+                     (RFM_df['Frequency'] <= F_update) & 
+                     (RFM_df['Monetary'] <= M_update)]
+```
+[In 21]:
+```python
+# Check for outliers in the 'Recency' column after filtering
+sns.boxplot(data=RFM_update, x='Recency')
+
+# Check for outliers in the 'Frequency' column after filtering
+sns.boxplot(data=RFM_update, x='Frequency')
+
+# Check for outliers in the 'Monetary' column after filtering
+sns.boxplot(data=RFM_update, x='Monetary')
+```
+
+[Out 21]:
+![Image](https://github.com/user-attachments/assets/80aaab5a-24ec-4cd2-ae78-bbbe90208ae9)
