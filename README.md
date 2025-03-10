@@ -1,7 +1,7 @@
 # **📊 Project:Superstore Customer Segmentation Using RFM Model (Python - Colab)** #
-Author: Nguyễn Hoàng Đỗ Uyên
-Date: 07/10/2001
-Tools Used: Python
+**Author:** Nguyễn Hoàng Đỗ Uyên
+**Date:** 07/10/2001
+**Tools Used:** Python
 
 ## 📑 Table of Contents ##
 - 📌 **Background & Overview**  
@@ -135,8 +135,8 @@ ecommerce.head()
 
 [In 4]:  
 ```python
-# Print the first five rows of the dataset
-ecommerce.head()
+# Check the general information of df
+ecommerce.info()
 ```
 [Out 4]:  
 
