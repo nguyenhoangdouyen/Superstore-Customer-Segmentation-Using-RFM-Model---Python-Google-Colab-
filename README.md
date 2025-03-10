@@ -353,19 +353,17 @@ Since **CustomerID is essential**, drop missing values to maintain data integrit
 ecommerce_update = ecommerce_update.dropna(subset=['CustomerID'])
 ```
 
-[In 16]:
-**🔍 Check duplicate**
-### Code to check duplicates based on four columns:
-
+[In 16]: 
+🔍 Check duplicate**
 ```python
 # Identify duplicate rows based on 'InvoiceNo', 'StockCode', 'InvoiceDate', and 'CustomerID'
 ecommerce_duplicate = ecommerce_update[ecommerce_update.duplicated(subset=['InvoiceNo', 'StockCode', 'InvoiceDate', 'CustomerID'])]
 
 # Print the number of duplicate rows found
 print(ecommerce_duplicate.shape)
+```
 
 The result (10038, 12) means there are 10,038 duplicate rows, and they need to be detected and handled in **two cases**: 
-
 1. **Case 1 - Duplicates with the Same Quantity**: 
    - These duplicates are likely caused by system errors (e.g., duplicate entries with the same quantity). 
    - **Action**: Drop the duplicates because they are identical.
