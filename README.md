@@ -95,8 +95,6 @@ The dataset consists of **two tables (sheets)**:
 
 ### 1️⃣ Data Cleaning & Preprocessing  
 
-**Step 1 : Reading and Understanding Data**
-
 [In 1]:  
 ```python
 # Import required libraries for dataframe and visualization
@@ -270,3 +268,34 @@ The following columns have inappropriate data types and should be converted to *
 - **Quantity < 0 but InvoiceNo does NOT start with 'C'** → These records contain **incorrect descriptions** and should be **excluded** from the dataset.
 - **UnitPrice < 0 & incorrect Description** → These are **invalid transactions** and should also be **removed** from the dataset.
 
+### **2️⃣ Exploratory Data Analysis (EDA)**
+
+🛠 To ensure proper data processing, we need to convert specific columns to the appropriate data types:
+[In 13]:
+```python
+# Convert selected columns to string type
+column_list = ["InvoiceNo", "StockCode", "Description", "CustomerID", "Country"]
+for c in column_list:
+    ecommerce_update[c] = ecommerce_update[c].astype(str)
+
+# Convert InvoiceDate to datetime format
+ecommerce_update['InvoiceDate'] = pd.to_datetime(ecommerce_update['InvoiceDate'])
+
+
+🛠 Data Cleaning: Removing Invalid Transactions
+
+To ensure data quality, the following steps were taken to remove invalid records:
+[In 14]:
+
+```python
+# 1. Remove canceled orders (InvoiceNo starting with 'C')
+ecommerce_update = ecommerce_update[~ecommerce_update['InvoiceNo'].str.startswith("C")]
+
+# 2. Remove transactions with Quantity < 0 where InvoiceNo does not start with 'C' (due to incorrect descriptions)
+ecommerce_update = ecommerce_update[ecommerce_update['Quantity'] > 0]
+
+# 3. Remove transactions marked as Error = 1 (due to incorrect descriptions)
+ecommerce_update = ecommerce_update[ecommerce_update['Error'] != 1]
+
+# 4. Remove transactions with UnitPrice < 0
+ecommerce_update = ecommerce_update[ecommerce_update['UnitPrice'] > 0]
