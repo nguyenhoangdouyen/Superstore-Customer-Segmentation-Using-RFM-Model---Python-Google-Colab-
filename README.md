@@ -963,6 +963,7 @@ In SuperStore's retail model, where the RFM (Recency, Frequency, Monetary) model
 - Strategies like **loyalty programs, exclusive deals, and personalized offers** can help sustain their buying behavior.  
 
 **🔹 Key Takeaway: Focus on Frequency for Long-Term Revenue Growth**  
+
 ✅ **Encouraging repeat purchases** strengthens customer loyalty and increases revenue.  
 ✅ **Preventing high-risk customers from churning** ensures a stable customer base.  
 ✅ **Developing purchase habits for new customers** helps convert them into long-term buyers.  
