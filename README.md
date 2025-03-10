@@ -420,8 +420,28 @@ ecommerce_update = ecommerce_update.groupby(['InvoiceNo', 'StockCode', 'InvoiceD
 })
 ```
 
-**🔍 Check outlier**
+**🔍 Prepare RFM Dataframe for calculating**
 [In 19]:
+
+```python
+#Calculate the last transaction date  
+last_day = ecommerce_update['Date'].max()
+
+# Create revenue column 
+ecommerce_update['revenue'] = ecommerce_update['Quantity'] * ecommerce_update['UnitPrice']  
+
+# Create RFM df
+RFM_df = ecommerce_update.groupby('CustomerID').agg(  
+    Recency=('Date', lambda x: (last_day - x.max()).days),  # Calculate the number of days since the last purchase  
+    Frequency=('InvoiceNo', 'count'),  # Count the number of transactions per customer  
+    Monetary=('revenue', 'sum')  # Sum the total revenue per customer  
+).reset_index()
+
+RFM_df
+```
+
+**🔍 Check outlier**
+[In 20]:
 
 ```python
 # Check outliers for the 'Recency' column
@@ -433,11 +453,11 @@ sns.boxplot(data=RFM_df, x='Monetary')
 # Check outliers for the 'Frequency' column
 sns.boxplot(data=RFM_df, x='Frequency')
 ```
-[Out 19]:
+[Out 20]:
 
 ![Image](https://github.com/user-attachments/assets/dd08a423-d0da-43a5-bbfe-24ddf6c85bcf)
 
-[In 20]:
+[In 21]:
 **🔍 Drop outlier**
 ```python
 # Set the 95th percentile threshold for 'Recency'
@@ -454,7 +474,7 @@ RFM_update = RFM_df[(RFM_df['Recency'] <= R_update) &
                      (RFM_df['Frequency'] <= F_update) & 
                      (RFM_df['Monetary'] <= M_update)]
 ```
-[In 21]:
+[In 22]:
 ```python
 # Check for outliers in the 'Recency' column after filtering
 sns.boxplot(data=RFM_update, x='Recency')
@@ -466,5 +486,27 @@ sns.boxplot(data=RFM_update, x='Frequency')
 sns.boxplot(data=RFM_update, x='Monetary')
 ```
 
-[Out 21]:
+[Out 22]:
+
 ![Image](https://github.com/user-attachments/assets/80aaab5a-24ec-4cd2-ae78-bbbe90208ae9)
+
+**🔍Assign RFM scores using Qcut** 
+
+```
+[In 23]:
+
+```python
+# Recency score: Lower values indicate more recent purchases, so assign higher scores to lower recency values  
+RFM_update['R_score'] = pd.qcut(RFM_update['Recency'], 5, labels=range(5, 0, -1), duplicates='drop').astype(int)  
+
+# Frequency score: Higher values indicate more frequent purchases, so assign higher scores to higher frequency values  
+RFM_update['F_score'] = pd.qcut(RFM_update['Frequency'], 5, labels=range(1, 6), duplicates='drop').astype(int)  
+
+# Monetary score: Higher values indicate higher spending, so assign higher scores to higher monetary values  
+RFM_update['M_score'] = pd.qcut(RFM_update['Monetary'], 5, labels=range(1, 6), duplicates='drop').astype(int)  
+
+# Combine RFM scores into a single string to create the RFM segment  
+RFM_update['RFM'] = RFM_update['R_score'].astype(str) + \  
+                     RFM_update['F_score'].astype(str) + \  
+                     RFM_update['M_score'].astype(str)  
+```
