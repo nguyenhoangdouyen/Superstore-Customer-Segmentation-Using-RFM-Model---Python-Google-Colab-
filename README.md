@@ -495,7 +495,6 @@ sns.boxplot(data=RFM_update, x='Monetary')
 ```
 
 [In 23]:
-
 ```python
 # Recency score: Lower values indicate more recent purchases, so assign higher scores to lower recency values  
 RFM_update['R_score'] = pd.qcut(RFM_update['Recency'], 5, labels=range(5, 0, -1), duplicates='drop').astype(int)  
@@ -507,10 +506,13 @@ RFM_update['F_score'] = pd.qcut(RFM_update['Frequency'], 5, labels=range(1, 6), 
 RFM_update['M_score'] = pd.qcut(RFM_update['Monetary'], 5, labels=range(1, 6), duplicates='drop').astype(int)  
 
 # Combine RFM scores into a single string to create the RFM segment  
-RFM_update['RFM'] = RFM_update['R_score'].astype(str) + \  
-                     RFM_update['F_score'].astype(str) + \  
-                     RFM_update['M_score'].astype(str)
+RFM_update['RFM'] = (
+    RFM_update['R_score'].astype(str) +
+    RFM_update['F_score'].astype(str) +
+    RFM_update['M_score'].astype(str)
+)
 ```
+
 **🔍Process the segmentation table & merge with RFM_df**
 
 [In 24]:
