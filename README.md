@@ -238,6 +238,23 @@ check_invalid_invoice = ecommerce_update[(ecommerce_update['cancel_invoice'] == 
 print(len(check_invalid_invoice))  # Number of inconsistent records
 check_invalid_invoice.head()  # Preview of invalid records
 ```
+[Out 11]:
 
+![Image](https://github.com/user-attachments/assets/f6708de9-d4fb-45a7-be28-ca4dfb886f99)
 
+### ⚠ Further Investigation: Negative Quantity Without Cancellation
 
+After checking, it was found that some orders **do not have "C" in InvoiceNo** but still have **negative Quantity**. To analyze the cause, export the file for further review.
+
+[In 12 ]:
+
+```python
+# Check for Negative Unit Prices
+print(len(ecommerce_update[ecommerce_update['UnitPrice'] < 0 ]))  # Number of invalid records
+print(ecommerce_update[ecommerce_update['UnitPrice'] < 0 ].head())  # Preview of invalid records
+print(len(ecommerce_update[ecommerce_update['UnitPrice'] < 0 ]))  # Number of invalid records
+ecommerce_update[ecommerce_update['UnitPrice'] < 0 ].head()  # Preview of invalid records
+
+[Out 12 ]:
+
+![Image](https://github.com/user-attachments/assets/32e6169f-c53e-472a-a6df-88863817444a)
