@@ -353,8 +353,8 @@ Since **CustomerID is essential**, drop missing values to maintain data integrit
 ecommerce_update = ecommerce_update.dropna(subset=['CustomerID'])
 ```
 
+**🔍 Check duplicate**
 [In 16]: 
-🔍 Check duplicate**
 ```python
 # Identify duplicate rows based on 'InvoiceNo', 'StockCode', 'InvoiceDate', and 'CustomerID'
 ecommerce_duplicate = ecommerce_update[ecommerce_update.duplicated(subset=['InvoiceNo', 'StockCode', 'InvoiceDate', 'CustomerID'])]
@@ -372,18 +372,17 @@ The result (10038, 12) means there are 10,038 duplicate rows, and they need to b
    - These duplicates may occur due to system recording issues (e.g., a single order being split into multiple records with different quantities). 
    - **Action**: Sum the quantities of the duplicate entries to correct the data.
 
-[In 16]:
-
-**Detecting and Handling Duplicate Rows:** 
+**🔍 Detecting and Handling Duplicate Rows:** 
 
 **1. Detecting Exact Duplicate Rows:**
    - The following code detects rows that are completely duplicated based on `InvoiceNo`, `StockCode`, `InvoiceDate`, `CustomerID`, and `Quantity`.
-   
+[In 17]:
+
 ```python
 # Detect exact duplicate rows based on 'InvoiceNo', 'StockCode', 'InvoiceDate', 'CustomerID', and 'Quantity'
 invoice_duplicate_total = ecommerce_update[ecommerce_update.duplicated(subset=['InvoiceNo', 'StockCode', 'InvoiceDate', 'CustomerID', 'Quantity'])]
 ```
-[In 17]:
+[In 18]:
 
 **2. Grouping and Aggregating Data for Exact duplicate:**
 The following code groups the data by `InvoiceNo`, `StockCode`, `InvoiceDate`, `CustomerID`, and `Quantity`, and keeps the first occurrence of other columns:
@@ -538,7 +537,6 @@ RFM_final
 [In 25]:
 
 ```python
-# Contribution by Segmentation
 
 # Count the number of customers in each segment
 count_segment_by_users = RFM_final[['CustomerID', 'Segment']].groupby(['Segment'])['CustomerID'].count().reset_index().rename(columns={'CustomerID': 'Count'})
@@ -567,3 +565,83 @@ plt.show()
 
 ![image](https://github.com/user-attachments/assets/3ab19206-d207-4783-8dfb-fd9c150295cc)
 
+**2. Segmentation by Spending**
+
+[In 26]:
+
+```python
+
+# Aggregate total spending for each segment
+segment_by_spending = RFM_final[RFM_final.Monetary > 0][['Segment', 'Monetary']].groupby('Segment')['Monetary'].sum().reset_index().rename(columns={'Monetary': 'Spending'})
+
+# Calculate the percentage contribution of each segment to total spending
+segment_by_spending['percent_segment_by_spending'] = round(segment_by_spending['Spending'] / segment_by_spending['Spending'].sum() * 100)
+
+# Convert percentage values to integers for better readability
+segment_by_spending['percent_segment_by_spending'] = segment_by_spending['percent_segment_by_spending'].astype(int)
+
+# Append percentage values to segment labels
+segment_by_spending['Segment'] = segment_by_spending['Segment'] + ' ' + segment_by_spending['percent_segment_by_spending'].astype(str) + '%'
+
+# Remove segments with 0% contribution
+segment_by_spending = segment_by_spending[segment_by_spending.percent_segment_by_spending > 0]
+
+# Plot a treemap to visualize spending distribution by segment
+plt.figure(figsize=(12, 8))
+squarify.plot(
+    sizes=segment_by_spending['percent_segment_by_spending'], 
+    label=segment_by_spending['Segment'], 
+    color=sns.color_palette("Set2"), 
+    alpha=0.8, 
+    text_kwargs={'fontsize': 8}
+)
+plt.title("Segmentation by Spending", fontsize=10)
+plt.axis('off')  # Hide axes for better visualization
+plt.show()
+```
+
+[Out 26]:
+![image](https://github.com/user-attachments/assets/7eddbdd6-271c-4ccf-9fe5-21f615ebee93)
+
+**3. Segmentation by Frequency**
+
+[In 27]:
+
+```python
+
+# Calculate the average frequency of purchases for each segment
+segment_by_frequency = RFM_final[RFM_final.Frequency > 0][['Segment', 'Frequency']].groupby('Segment')['Frequency'].mean().reset_index()
+
+# Plot a bar chart to visualize the average frequency per segment
+plt.figure(figsize=(12, 8))
+sns.barplot(data=segment_by_frequency, x='Frequency', y='Segment')
+plt.xlabel('Average Purchase Frequency')
+plt.ylabel('Segment')
+plt.title('Segmentation by Frequency')
+plt.show()
+```
+[Out 27]:
+
+![image](https://github.com/user-attachments/assets/45dd4769-edb2-40d4-9292-08ad1074becc)
+
+**4. Segmentation by Recency**
+
+[In 28]:
+
+```python
+
+# Calculate the average recency (days since last purchase) for each segment
+segment_by_recency = RFM_final[RFM_final.Recency > 0][['Segment', 'Recency']].groupby('Segment')['Recency'].mean().reset_index()
+
+# Plot a bar chart to visualize the average recency per segment
+plt.figure(figsize=(12, 8))
+sns.barplot(data=segment_by_recency, x='Recency', y='Segment')
+plt.xlabel('Average Recency (Days)')
+plt.ylabel('Segment')
+plt.title('Segmentation by Recency')
+plt.show()
+```
+
+[Out 28]:
+
+![image](https://github.com/user-attachments/assets/98b9e2f0-aa9e-43a0-98b2-0486db1603dd)
