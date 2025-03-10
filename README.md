@@ -228,7 +228,6 @@ ecommerce_update['cancel_invoice'] = ecommerce_update.apply(
 After flagging cancellations, verify if there are any transactions where **Quantity** is negative, but the **InvoiceNo** does not start with "C". These may indicate data inconsistencies.
 
 [In 11]:
-After flagging cancellations, verify if there are any transactions where **Quantity** is negative, but the **InvoiceNo** does not start with "C". These may indicate data inconsistencies.
 
 ```python
 check_invalid_invoice = ecommerce_update[(ecommerce_update['cancel_invoice'] == False) & (ecommerce_update['Quantity'] < 0)]
@@ -709,8 +708,65 @@ Based on the above analysis, we can see that some segments share similar charact
 - These customers are **almost entirely disengaged**, with **a very long time since their last purchase (200+ days)**.  
 - **Their purchase frequency and revenue contribution are extremely low**, making them **unlikely to return without strong intervention**.  
 
+**5. Distribution of RFM over Time**
 
+# Merge `RFM_final` & `ecommerce_update` with all columns from `ecommerce_update`
+```python
+RFM_final_merge = RFM_final.merge(ecommerce_update, on='CustomerID', how='left')
+```
 
+**5.1 Money**
+
+[In 29]:
+
+```python
+# Calculate average RFM grouped by month
+RFM_by_month = RFM_final_merge.groupby('Month')['Monetary'].mean().reset_index()
+
+# Plot line chart
+plt.figure(figsize=(12,6))
+sns.lineplot(data=RFM_by_month, x='Month', y='Monetary', label='Monetary', marker='o')
+plt.title('Distribution of Monetary over Time')
+plt.xlabel('Month')
+plt.ylabel('Average Monetary Value')
+plt.grid(True)
+plt.show()
+```
+[Out 29]: 
+
+![image](https://github.com/user-attachments/assets/31f9cf39-bc39-4ae6-9b91-f4e75fda2db3)
+
+[In 30]:
+
+```python
+# Calculate average RFM grouped by month
+RFM_by_month = RFM_final_merge.groupby('Month')[['Recency', 'Frequency']].mean().reset_index()
+
+# Plot line chart
+plt.figure(figsize=(12,6))
+sns.lineplot(data=RFM_by_month, x='Month', y='Recency', label='Recency', marker='o')
+sns.lineplot(data=RFM_by_month, x='Month', y='Frequency', label='Frequency', marker='o')
+plt.title('Distribution of RFM over Time')
+plt.xlabel('Month')
+plt.ylabel('Average Value')
+plt.legend()
+plt.grid(True)
+plt.show()
+```
+
+[Out 30]: 
+
+![image](https://github.com/user-attachments/assets/cc76d31f-142b-4b1d-9e7b-463996cebdc7)
+
+### 📊 Observations:
+
+- **Recency:** This metric shows a **downward trend** over time, which is a **positive sign** since customers are purchasing **more frequently or more recently**.  
+
+- **Frequency:** The purchase frequency appears to be **relatively stable**, but there are **slight fluctuations**. This suggests that customers are maintaining **a certain level of engagement** with the app.  
+
+- **Monetary:** This metric exhibits **significant fluctuations**, with **sharp peaks and dips**. This indicates that the **monetary value spent by customers is not stable**, potentially due to **promotional campaigns, seasonal effects, or changes in purchasing behavior**.  
+
+➡️ **Further analysis is needed** to determine **which segments** are driving these increases and decreases.
 
 
 
