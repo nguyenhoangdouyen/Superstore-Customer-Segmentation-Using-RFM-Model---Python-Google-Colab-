@@ -645,3 +645,25 @@ plt.show()
 [Out 28]:
 
 ![image](https://github.com/user-attachments/assets/98b9e2f0-aa9e-43a0-98b2-0486db1603dd)
+
+
+### **📊 Key Findings**###
+| Segment              | R (Recency) | F (Frequency) | M (Monetary) | Nhận xét |
+|----------------------|------------|--------------|-------------|----------|
+| **Champions (17%)**  | R **rất thấp** (~10-20 ngày) | F **rất cao** (~200+ lần) | M **cao nhất** (~27% doanh thu) | Nhóm khách hàng tốt nhất, đóng góp doanh thu lớn, cần tiếp tục nuôi dưỡng. |
+| **Loyal (9%)**  | R **trung bình** (~60 ngày) | F **cao** (~180 lần) | M **khá cao** (~13% doanh thu) | Nhóm khách trung thành, có tần suất mua hàng ổn định, cần duy trì chăm sóc. |
+| **Potential Loyalist (12%)**  | R **trung bình** (~50 ngày) | F **trung bình** (~100 lần) | M **trung bình** (~7% doanh thu) | Nhóm có tiềm năng trở thành khách hàng trung thành, cần thêm động lực. |
+| **New Customers (8%)**  | R **trung bình** (~40 ngày) | F **thấp** (~50 lần) | M **thấp** (~3% doanh thu) | Tệp khách hàng mới, cần thêm chiến lược giữ chân và kích thích mua lại. |
+| **Promising (4%)**  | R **trung bình** (~60-70 ngày) | F **trung bình** (~50-80 lần) | M **thấp** (~4% doanh thu) | Nhóm khách có dấu hiệu quay lại nhưng chưa mạnh, cần push thêm. |
+| **Need Attention (6%)**  | R **cao** (~120+ ngày) | F **trung bình/thấp** (~50 lần) | M **thấp** (~3-4% doanh thu) | Nhóm từng có mức độ tương tác nhưng đang suy giảm, có thể bị thu hút bởi đối thủ. |
+| **At Risk (11%)**  | R **cao** (~120 ngày) | F **trung bình** (~100 lần) | M **cao** (~10-14% doanh thu) | Nhóm từng có giá trị cao nhưng đang giảm dần sự gắn kết, có nguy cơ mất đi. |
+| **About to Sleep (4%)**  | R **cao** (~100 ngày) | F **thấp** (~30 lần) | M **thấp** (~3% doanh thu) | Nhóm có dấu hiệu rời đi, cần chiến lược kéo lại trước khi quá muộn. |
+| **Cannot Lose Them (3%)**  | R **rất cao** (~180+ ngày) | F **trung bình** (~100 lần) | M **trung bình** (~4-5% doanh thu) | Nhóm khách hàng từng chi tiêu tốt nhưng đang rời xa thương hiệu. Cần chiến lược giữ chân mạnh. |
+| **Hibernating (18%)**  | R **rất cao** (~200 ngày) | F **rất thấp** (~10-20 lần) | M **cực thấp** (~2% doanh thu) | Khách hàng từng mua nhưng đã rời xa thương hiệu trong thời gian dài. |
+| **Lost Customers (9%)**  | R **cực cao** (220+ ngày) | F **cực thấp** (~5-10 lần) | M **rất thấp** (~1-2% doanh thu) | Nhóm gần như mất hẳn, khả năng quay lại thấp nếu không có tác động mạnh. |
+
+
+
+
+
+
