@@ -245,11 +245,9 @@ After checking, it was found that some orders **do not have "C" in InvoiceNo** b
 [In 12 ]:
 
 ```python
-# Check for Negative Unit Prices
-print(len(ecommerce_update[ecommerce_update['UnitPrice'] < 0 ]))  # Number of invalid records
-print(ecommerce_update[ecommerce_update['UnitPrice'] < 0 ].head())  # Preview of invalid records
-print(len(ecommerce_update[ecommerce_update['UnitPrice'] < 0 ]))  # Number of invalid records
-ecommerce_update[ecommerce_update['UnitPrice'] < 0 ].head()  # Preview of invalid records
+# Filtered UnitPrice <0
+print(len(ecommerce_update[ecommerce_update['UnitPrice'] < 0 ]))
+ecommerce_update[ecommerce_update['UnitPrice'] < 0 ].head()
 ```
 
 [Out 12 ]:
