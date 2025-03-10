@@ -493,6 +493,7 @@ sns.boxplot(data=RFM_update, x='Monetary')
 **🔍Assign RFM scores using Qcut** 
 
 ```
+
 [In 23]:
 
 ```python
@@ -508,5 +509,25 @@ RFM_update['M_score'] = pd.qcut(RFM_update['Monetary'], 5, labels=range(1, 6), d
 # Combine RFM scores into a single string to create the RFM segment  
 RFM_update['RFM'] = RFM_update['R_score'].astype(str) + \  
                      RFM_update['F_score'].astype(str) + \  
-                     RFM_update['M_score'].astype(str)  
+                     RFM_update['M_score'].astype(str)
 ```
+**🔍Process the segmentation table & merge with RFM_df**
+
+[In 24]:
+```python
+# Flatten the segmentation table by splitting the 'RFM Score' column  
+segmentation['RFM Score'] = segmentation['RFM Score'].astype(str).str.split(',')
+segmentation = segmentation.explode('RFM Score').reset_index(drop=True)
+
+# Trim spaces in the 'RFM Score' column to ensure proper merging  
+segmentation['RFM Score'] = segmentation['RFM Score'].str.strip()
+
+# Merge the segmentation table with the RFM table based on the 'RFM Score'  
+RFM_final = RFM_update.merge(segmentation, how='left', left_on='RFM', right_on='RFM Score')
+
+# Display the final RFM segmentation table  
+RFM_final
+```
+[Out 24]:
+
+![Image](https://github.com/user-attachments/assets/e597bac7-f7f6-4cce-baf6-2108d3d2b177)
