@@ -271,6 +271,7 @@ The following columns have inappropriate data types and should be converted to *
 ### **2️⃣ Exploratory Data Analysis (EDA)**
 
 🛠 To ensure proper data processing, we need to convert specific columns to the appropriate data types:
+
 [In 13]:
 ```python
 # Convert selected columns to string type
@@ -285,6 +286,7 @@ ecommerce_update['InvoiceDate'] = pd.to_datetime(ecommerce_update['InvoiceDate']
 🛠 Data Cleaning: Removing Invalid Transactions
 
 To ensure data quality, the following steps were taken to remove invalid records:
+
 [In 14]:
 
 ```python
@@ -299,4 +301,28 @@ ecommerce_update = ecommerce_update[ecommerce_update['Error'] != 1]
 
 # 4. Remove transactions with UnitPrice < 0
 ecommerce_update = ecommerce_update[ecommerce_update['UnitPrice'] > 0]
+```
+
+🛠 Checking Missing Values in CustomerID & Error Columns
+```
+python
+import missingno as msno
+import numpy as np
+
+# Visualizing missing data
+msno.matrix(ecommerce_update)
+
+# Handling missing values in CustomerID
+ecommerce_update['CustomerID'] = ecommerce_update['CustomerID'].replace(["nan", "", " "], np.nan)
+
+# Creating a dictionary with missing value counts and percentages
+missing_dict = {
+    'volume': ecommerce_update.isnull().sum(),
+    '%': (ecommerce_update.isnull().sum() / ecommerce_update.shape[0]) * 100
+}
+missing_ecommerce = pd.DataFrame.from_dict(missing_dict)
+
+# Display missing values summary
+print(missing_ecommerce)
+
 ```
