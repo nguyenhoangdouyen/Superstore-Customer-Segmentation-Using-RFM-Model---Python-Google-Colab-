@@ -853,7 +853,35 @@ plt.grid(True, linestyle='--', alpha=0.7)
 [Out 33]:
 ![image](https://github.com/user-attachments/assets/c9067fb5-d8ff-4dee-9f22-9a4c18d6f887)
 
+**9. Trend of Recency, Frequency, Monetary by Month**
 
+[In 34]:
+```python
+# Calculate the average RFM values per Group Segment each month
+rfm_trend = RFM_final_merge.groupby(['Month', 'Group Segment'])[['Recency', 'Frequency', 'Monetary']].mean().reset_index()
+
+# Plot the trends
+plt.figure(figsize=(12, 6))
+for metric in ['Recency', 'Frequency', 'Monetary']:
+    # Pivot data by Group Segment
+    pivot_data = rfm_trend.pivot(index='Month', columns='Group Segment', values=metric)
+
+    # Plot Area Chart
+    pivot_data.plot(kind='area', stacked=True, alpha=0.7, figsize=(12, 6))
+    plt.title(f'Trend of {metric} by Group Segment')
+    plt.ylabel(metric)
+    plt.xlabel('Month')
+    plt.legend(title='Group Segment')
+    plt.show()
+```
+
+[Out 34]:
+
+![image](https://github.com/user-attachments/assets/ae538626-3639-40e8-b916-a6dcfccea2ee)
+
+![image](https://github.com/user-attachments/assets/b2bfbe9b-8fe5-4665-9742-09da6211ac69)
+
+![image](https://github.com/user-attachments/assets/2699a1ef-3b76-4a1c-9561-5493acbce2c9)
 
 
 
