@@ -649,27 +649,27 @@ plt.show()
 
 ### **📊 Observations **
 From the four analysis charts on contribution, monetary, recency, and frequency for each segment, we can analyze the behavior of the 11 segments as follows:
+| Segment              | R (Recency) | F (Frequency) | M (Monetary) | **Characteristics** |
+|----------------------|------------|--------------|-------------|---------------------|
+| **Champions (17%)**  | R **very low** (~10-20 days) | F **very high** (~200+ times) | M **highest** (~27% revenue) | **The best customer group, contributing significantly to revenue. Should be nurtured continuously.** |
+| **Loyal (9%)**  | R **moderate** (~60 days) | F **high** (~180 times) | M **fairly high** (~13% revenue) | **Loyal customers with a stable purchasing frequency. Should be maintained and cared for.** |
+| **Potential Loyalist (12%)**  | R **moderate** (~50 days) | F **moderate** (~100 times) | M **moderate** (~7% revenue) | **Potentially loyal customers who need more incentives to convert.** |
+| **New Customers (8%)**  | R **moderate** (~40 days) | F **low** (~50 times) | M **low** (~3% revenue) | **Newly acquired customers who need retention strategies to encourage repeat purchases.** |
+| **Promising (4%)**  | R **moderate** (~60-70 days) | F **moderate** (~50-80 times) | M **low** (~4% revenue) | **Customers showing signs of returning but not strongly engaged yet. Needs additional push.** |
+| **Need Attention (6%)**  | R **high** (~120+ days) | F **moderate/low** (~50 times) | M **low** (~3-4% revenue) | **Customers with past engagement but declining activity. May be attracted by competitors.** |
+| **At Risk (11%)**  | R **high** (~120 days) | F **moderate** (~100 times) | M **high** (~10-14% revenue) | **Previously high-value customers who are gradually disengaging. High risk of churn.** |
+| **About to Sleep (4%)**  | R **high** (~100 days) | F **low** (~30 times) | M **low** (~3% revenue) | **Customers showing signs of leaving. Requires re-engagement strategies before it's too late.** |
+| **Cannot Lose Them (3%)**  | R **very high** (~180+ days) | F **moderate** (~100 times) | M **moderate** (~4-5% revenue) | **Previously high-spending customers who are drifting away. Strong retention efforts needed.** |
+| **Hibernating (18%)**  | R **very high** (~200 days) | F **very low** (~10-20 times) | M **very low** (~2% revenue) | **Customers who purchased before but have been inactive for a long time.** |
+| **Lost Customers (9%)**  | R **extremely high** (220+ days) | F **extremely low** (~5-10 times) | M **very low** (~1-2% revenue) | **Nearly lost customers with a very low chance of returning without strong intervention.** |
 
-| Segment              | R (Recency) | F (Frequency) | M (Monetary) | Notes |
-|----------------------|------------|--------------|-------------|----------|
-| **Champions (17%)**  | R **very low** (~10-20 days) | F **very high** (~200+ times) | M **highest** (~27% revenue) | The best customer group, contributing significantly to revenue. Should be nurtured continuously. |
-| **Loyal (9%)**  | R **moderate** (~60 days) | F **high** (~180 times) | M **fairly high** (~13% revenue) | Loyal customers with a stable purchasing frequency. Should be maintained and cared for. |
-| **Potential Loyalist (12%)**  | R **moderate** (~50 days) | F **moderate** (~100 times) | M **moderate** (~7% revenue) | Potentially loyal customers who need more incentives to convert. |
-| **New Customers (8%)**  | R **moderate** (~40 days) | F **low** (~50 times) | M **low** (~3% revenue) | Newly acquired customers who need retention strategies to encourage repeat purchases. |
-| **Promising (4%)**  | R **moderate** (~60-70 days) | F **moderate** (~50-80 times) | M **low** (~4% revenue) | Customers showing signs of returning but not strongly engaged yet. Needs additional push. |
-| **Need Attention (6%)**  | R **high** (~120+ days) | F **moderate/low** (~50 times) | M **low** (~3-4% revenue) | Customers with past engagement but declining activity. May be attracted by competitors. |
-| **At Risk (11%)**  | R **high** (~120 days) | F **moderate** (~100 times) | M **high** (~10-14% revenue) | Previously high-value customers who are gradually disengaging. High risk of churn. |
-| **About to Sleep (4%)**  | R **high** (~100 days) | F **low** (~30 times) | M **low** (~3% revenue) | Customers showing signs of leaving. Requires re-engagement strategies before it's too late. |
-| **Cannot Lose Them (3%)**  | R **very high** (~180+ days) | F **moderate** (~100 times) | M **moderate** (~4-5% revenue) | Previously high-spending customers who are drifting away. Strong retention efforts needed. |
-| **Hibernating (18%)**  | R **very high** (~200 days) | F **very low** (~10-20 times) | M **very low** (~2% revenue) | Customers who purchased before but have been inactive for a long time. |
-| **Lost Customers (9%)**  | R **extremely high** (220+ days) | F **extremely low** (~5-10 times) | M **very low** (~1-2% revenue) | Nearly lost customers with a very low chance of returning without strong intervention. |
 
 ### **📊 Key Findings**
 Based on the above analysis, we can see that some segments share similar characteristics. Therefore, we can group them into segment clusters for easier analysis and to propose suitable strategies as follows:
 
 ---
 
-## **Group 1: High-Risk Customers (24%)**  
+**Group 1: High-Risk Customers (24%)**  
 
 📌 **Includes:** Cannot Lose Them (3%), At Risk (11%), About to Sleep (4%), Need Attention (6%)  
 
@@ -680,7 +680,7 @@ Based on the above analysis, we can see that some segments share similar charact
 
 ---
 
-## **Group 2: Loyal & High-Value Customers (38%)**  
+**Group 2: Loyal & High-Value Customers (38%)**  
 
 📌 **Includes:** Champions (17%), Loyal (9%), Potential Loyalist (12%)  
 
@@ -691,7 +691,7 @@ Based on the above analysis, we can see that some segments share similar charact
 
 ---
 
-## **Group 3: New & Potential Customers (25%)**  
+**Group 3: New & Potential Customers (25%)**  
 
 📌 **Includes:** New Customers (17%), Promising (8%)  
 
@@ -702,7 +702,7 @@ Based on the above analysis, we can see that some segments share similar charact
 
 ---
 
-## **Group 4: Inactive & Lost Customers (13%)**  
+**Group 4: Inactive & Lost Customers (13%)**  
 
 📌 **Includes:** Hibernating (9%), Lost Customers (4%)  
 
