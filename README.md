@@ -387,33 +387,36 @@ The following code groups the data by `InvoiceNo`, `StockCode`, `InvoiceDate`, `
 ```python
 # Group by 'InvoiceNo', 'StockCode', 'InvoiceDate', 'CustomerID', and 'Quantity' and keep the first occurrence of other columns
 ecommerce_update = ecommerce_update.groupby(['InvoiceNo', 'StockCode', 'InvoiceDate', 'CustomerID', 'Quantity'], as_index=False).agg({
-    'UnitPrice': 'first',          # Keep the first 'UnitPrice'
-    'Description': 'first',        # Keep the first 'Description'
-    'Country': 'first',            # Keep the first 'Country'
-    'Error': 'first',              # Keep the first 'Error'
-    'cancel_invoice': 'first',     # Keep the first 'cancel_invoice'
-    'Date': 'first',               # Keep the first 'Date'
-    'Month': 'first'               # Keep the first 'Month'
+    'UnitPrice': 'first',         
+    'Description': 'first',       
+    'Country': 'first',           
+    'Error': 'first',              
+    'cancel_invoice': 'first',   
+    'Date': 'first',              
+    'Month': 'first'               
 })
 ```
 [In 18]:
 
 **3. Grouping and Summing Quantities for Partial duplicate:**
 
-The following code groups the data by `InvoiceNo`, `StockCode`, `InvoiceDate`, and `CustomerID`, sums the `Quantity`, and keeps the first occurrence of other columns:
+After filtering out fully duplicated transactions, the remaining duplicates differ in quantity -> Sum Quantity
 
 ```python
-# Group by 'InvoiceNo', 'StockCode', 'InvoiceDate', 'CustomerID' and sum the 'Quantity', keeping the first occurrence of other columns
-ecommerce_update = ecommerce_update.groupby(['InvoiceNo', 'StockCode', 'InvoiceDate', 'CustomerID'], as_index=False).agg({
-    'Quantity': 'sum',            # Sum 'Quantity' for each group
-    'UnitPrice': 'first',         # Keep the first 'UnitPrice'
-    'Description': 'first',       # Keep the first 'Description'
-    'Country': 'first',           # Keep the first 'Country'
-    'Error': 'first',             # Keep the first 'Error'
-    'cancel_invoice': 'first',    # Keep the first 'cancel_invoice'
-    'Date': 'first',              # Keep the first 'Date'
-    'Month': 'first'              # Keep the first 'Month'
+ecommerce_update = ecommerce_update.groupby(
+    ['InvoiceNo', 'StockCode', 'InvoiceDate', 'CustomerID'], as_index=False
+).agg({
+    'Quantity': 'sum',
+    'UnitPrice': 'first',
+    'Description': 'first',
+    'Country': 'first',
+    'Error': 'first',
+    'cancel_invoice': 'first',
+    'Date': 'first',
+    'Month': 'first'
 })
+
+print(len(ecommerce_update))
 ```
 
 **🔍 Prepare RFM Dataframe for calculating**
