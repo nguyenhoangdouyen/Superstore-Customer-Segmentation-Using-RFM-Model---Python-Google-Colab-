@@ -280,7 +280,7 @@ for c in column_list:
 
 # Convert InvoiceDate to datetime format
 ecommerce_update['InvoiceDate'] = pd.to_datetime(ecommerce_update['InvoiceDate'])
-
+```
 
 🛠 Data Cleaning: Removing Invalid Transactions
 
@@ -299,3 +299,4 @@ ecommerce_update = ecommerce_update[ecommerce_update['Error'] != 1]
 
 # 4. Remove transactions with UnitPrice < 0
 ecommerce_update = ecommerce_update[ecommerce_update['UnitPrice'] > 0]
+```
