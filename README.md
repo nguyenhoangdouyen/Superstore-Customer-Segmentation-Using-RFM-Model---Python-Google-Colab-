@@ -1,6 +1,6 @@
 # **📊 Superstore Customer Segmentation Using RFM Model (Python - Colab)** #
 
-![image](https://github.com/user-attachments/assets/78d86fdb-8a68-4982-9d22-53839b7d51ce)
+![image](https://github.com/user-attachments/assets/b90b73a6-aaa6-44ad-9749-a798ebaf4632)
 
 **Author:** Nguyễn Hoàng Đỗ Uyên
 
