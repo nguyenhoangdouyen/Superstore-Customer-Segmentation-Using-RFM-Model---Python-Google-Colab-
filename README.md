@@ -1,4 +1,7 @@
 # **📊 Superstore Customer Segmentation Using RFM Model (Python - Colab)** #
+
+![image](https://github.com/user-attachments/assets/78d86fdb-8a68-4982-9d22-53839b7d51ce)
+
 **Author:** Nguyễn Hoàng Đỗ Uyên
 
 **Date:** 07/10/2001
@@ -381,10 +384,11 @@ The result (10038, 12) means there are 10,038 duplicate rows, and they need to b
 # Detect exact duplicate rows based on 'InvoiceNo', 'StockCode', 'InvoiceDate', 'CustomerID', and 'Quantity'
 invoice_duplicate_total = ecommerce_update[ecommerce_update.duplicated(subset=['InvoiceNo', 'StockCode', 'InvoiceDate', 'CustomerID', 'Quantity'])]
 ```
-[In 18]:
 
 **2. Grouping and Aggregating Data for Exact duplicate:**
 The following code groups the data by `InvoiceNo`, `StockCode`, `InvoiceDate`, `CustomerID`, and `Quantity`, and keeps the first occurrence of other columns:
+
+[In 18]:
 
 ```python
 # Group by 'InvoiceNo', 'StockCode', 'InvoiceDate', 'CustomerID', and 'Quantity' and keep the first occurrence of other columns
@@ -398,11 +402,12 @@ ecommerce_update = ecommerce_update.groupby(['InvoiceNo', 'StockCode', 'InvoiceD
     'Month': 'first'               
 })
 ```
-[In 18]:
 
 **3. Grouping and Summing Quantities for Partial duplicate:**
 
 After filtering out fully duplicated transactions, the remaining duplicates differ in quantity -> Sum Quantity
+
+[In 19]:
 
 ```python
 ecommerce_update = ecommerce_update.groupby(
@@ -422,7 +427,7 @@ print(len(ecommerce_update))
 ```
 
 **🔍 Prepare RFM Dataframe for calculating**
-[In 19]:
+[In 20]:
 
 ```python
 #Calculate the last transaction date  
@@ -442,7 +447,7 @@ RFM_df
 ```
 
 **🔍 Check outlier**
-[In 20]:
+[In 21]:
 
 ```python
 # Check outliers for the 'Recency' column
@@ -454,11 +459,11 @@ sns.boxplot(data=RFM_df, x='Monetary')
 # Check outliers for the 'Frequency' column
 sns.boxplot(data=RFM_df, x='Frequency')
 ```
-[Out 20]:
+[Out 21]:
 
 ![Image](https://github.com/user-attachments/assets/dd08a423-d0da-43a5-bbfe-24ddf6c85bcf)
 
-[In 21]:
+[In 22]:
 **🔍 Drop outlier**
 ```python
 # Set the 95th percentile threshold for 'Recency'
@@ -475,7 +480,7 @@ RFM_update = RFM_df[(RFM_df['Recency'] <= R_update) &
                      (RFM_df['Frequency'] <= F_update) & 
                      (RFM_df['Monetary'] <= M_update)]
 ```
-[In 22]:
+[In 23]:
 ```python
 # Check for outliers in the 'Recency' column after filtering
 sns.boxplot(data=RFM_update, x='Recency')
@@ -487,13 +492,13 @@ sns.boxplot(data=RFM_update, x='Frequency')
 sns.boxplot(data=RFM_update, x='Monetary')
 ```
 
-[Out 22]:
+[Out 23]:
 
 ![Image](https://github.com/user-attachments/assets/80aaab5a-24ec-4cd2-ae78-bbbe90208ae9)
 
 **🔍Assign RFM scores using Qcut** 
 
-[In 23]:
+[In 24]:
 ```python
 # Recency score: Lower values indicate more recent purchases, so assign higher scores to lower recency values  
 RFM_update['R_score'] = pd.qcut(RFM_update['Recency'], 5, labels=range(5, 0, -1), duplicates='drop').astype(int)  
@@ -514,7 +519,7 @@ RFM_update['RFM'] = (
 
 **🔍Process the segmentation table & merge with RFM_df**
 
-[In 24]:
+[In 25]:
 ```python
 # Flatten the segmentation table by splitting the 'RFM Score' column  
 segmentation['RFM Score'] = segmentation['RFM Score'].astype(str).str.split(',')
@@ -529,14 +534,14 @@ RFM_final = RFM_update.merge(segmentation, how='left', left_on='RFM', right_on='
 # Display the final RFM segmentation table  
 RFM_final
 ```
-[Out 24]:
+[Out 25]:
 
 ![Image](https://github.com/user-attachments/assets/e597bac7-f7f6-4cce-baf6-2108d3d2b177)
 
 ## 3️⃣ Visualization & Analysis
 **1. Contribution by Segmentation**
 
-[In 25]:
+[In 26]:
 
 ```python
 
@@ -563,13 +568,13 @@ plt.axis('off')  # Hide axes for better visualization
 plt.show()
 ```
 
-[Out 25]:
+[Out 26]:
 
 ![image](https://github.com/user-attachments/assets/3ab19206-d207-4783-8dfb-fd9c150295cc)
 
 **2. Segmentation by Spending**
 
-[In 26]:
+[In 27]:
 
 ```python
 
@@ -602,12 +607,12 @@ plt.axis('off')  # Hide axes for better visualization
 plt.show()
 ```
 
-[Out 26]:
+[Out 27]:
 ![image](https://github.com/user-attachments/assets/7eddbdd6-271c-4ccf-9fe5-21f615ebee93)
 
 **3. Segmentation by Frequency**
 
-[In 27]:
+[In 28]:
 
 ```python
 
@@ -622,13 +627,13 @@ plt.ylabel('Segment')
 plt.title('Segmentation by Frequency')
 plt.show()
 ```
-[Out 27]:
+[Out 28:
 
 ![image](https://github.com/user-attachments/assets/45dd4769-edb2-40d4-9292-08ad1074becc)
 
 **4. Segmentation by Recency**
 
-[In 28]:
+[In 29]:
 
 ```python
 
@@ -644,7 +649,7 @@ plt.title('Segmentation by Recency')
 plt.show()
 ```
 
-[Out 28]:
+[Out 29]:
 
 ![image](https://github.com/user-attachments/assets/98b9e2f0-aa9e-43a0-98b2-0486db1603dd)
 
@@ -720,7 +725,7 @@ RFM_final_merge = RFM_final.merge(ecommerce_update, on='CustomerID', how='left')
 
 **5.1 Money**
 
-[In 29]:
+[In 30]:
 
 ```python
 # Calculate average RFM grouped by month
@@ -735,11 +740,11 @@ plt.ylabel('Average Monetary Value')
 plt.grid(True)
 plt.show()
 ```
-[Out 29]: 
+[Out 30]: 
 
 ![image](https://github.com/user-attachments/assets/31f9cf39-bc39-4ae6-9b91-f4e75fda2db3)
 
-[In 30]:
+[In 31]:
 
 ```python
 # Calculate average RFM grouped by month
@@ -757,7 +762,7 @@ plt.grid(True)
 plt.show()
 ```
 
-[Out 30]: 
+[Out 31]: 
 
 ![image](https://github.com/user-attachments/assets/cc76d31f-142b-4b1d-9e7b-463996cebdc7)
 
@@ -774,7 +779,7 @@ plt.show()
 
 **6. Group Segment by Contribution**
 
-[In 31]:
+[In 32]:
 ```python
 # Classify into Group Segments
 RFM_final['Group Segment'] = RFM_final['Segment'].apply(
@@ -799,7 +804,7 @@ plt.title('Group Segment by Contribution')
 plt.show()
 ```
 
-[Out 31]:
+[Out 32]:
 
 ![image](https://github.com/user-attachments/assets/0ce9df4f-60fa-4579-a84c-28972a6573e2)
 
@@ -807,7 +812,7 @@ plt.show()
 **7. Segment Distribution Across Countries**
 Since **UK contributes significantly to the total**, the overall chart mainly represents the UK market. To gain clearer insights into other countries, we need to exclude UK data.
 
-[In 32]:
+[In 33]:
 ```python
 # Calculate segment distribution by country
 segmentation_by_location = RFM_final_merge.groupby(['Country', 'Group Segment'])['CustomerID'].nunique().unstack()
@@ -825,12 +830,12 @@ plt.legend(title='Segment')
 plt.show()
 ```
 
-[Out 32]:
+[Out 33]:
 ![image](https://github.com/user-attachments/assets/efc0d66f-e3e6-4c4a-808b-43c4dce3dff1)
 
 **8. Segmentation Distribution Over Time**
 
-[In 33]:
+[In 34]:
 
 ```python
 # Convert Month to correct data type
@@ -853,12 +858,12 @@ plt.legend(title='Group Segment')
 plt.grid(True, linestyle='--', alpha=0.7)
 ```
 
-[Out 33]:
+[Out 34]:
 ![image](https://github.com/user-attachments/assets/c9067fb5-d8ff-4dee-9f22-9a4c18d6f887)
 
 **9. Trend of Recency, Frequency, Monetary by Month**
 
-[In 34]:
+[In 35]:
 ```python
 # Calculate the average RFM values per Group Segment each month
 rfm_trend = RFM_final_merge.groupby(['Month', 'Group Segment'])[['Recency', 'Frequency', 'Monetary']].mean().reset_index()
@@ -878,7 +883,7 @@ for metric in ['Recency', 'Frequency', 'Monetary']:
     plt.show()
 ```
 
-[Out 34]:
+[Out 35]:
 
 ![image](https://github.com/user-attachments/assets/ae538626-3639-40e8-b916-a6dcfccea2ee)
 
