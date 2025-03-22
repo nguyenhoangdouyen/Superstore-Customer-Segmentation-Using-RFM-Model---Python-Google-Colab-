@@ -8,12 +8,19 @@
 
 **Tools Used:** Python
 
-## 📑 Table of Contents ##
-- 📌 **Background & Overview**  
-- 📂 **Dataset Description & Data Structure**  
-- 🔎 **Final Conclusion & Recommendations**  
+## 📑 Table of Contents 
 
-## 📌 Background & Overview ##
+## 📌 [Background & Overview](#background--overview)
+## 📂 [Dataset Description & Data Structure](#dataset-description--data-structure)
+## 🧹 [Data Cleaning & Preprocessing](#data-cleaning--preprocessing)
+## 🔍 [Exploratory Data Analysis (EDA)](#exploratory-data-analysis-eda)
+## 🧮 [Apply RFM Model](#apply-rfm-model)
+## 📊 [Visualization & Analysis](#visualization--analysis)
+## 💡 [Insight & Recommendation](#insight--recommendation)
+
+
+## 📌 Background & Overview 
+
 ### Objective ###
 
 📖 **What is this project about?**  
@@ -45,7 +52,7 @@ RFM (Recency, Frequency, Monetary) is a customer analysis technique based on pur
 - **Monetary**: Calculates the total amount spent by the customer.  
 By applying RFM, businesses can segment customers based on their value, allowing them to optimize marketing and customer engagement strategies.  
 
-## 📂 Dataset Description & Data Structure  
+## 📂 Dataset Description & Data Structure
 
 ### 📌 Data Source  
 - **Source**: Provided dataset for E-commerce retail analysis  
@@ -101,9 +108,7 @@ The dataset consists of **two tables (sheets)**:
 
 </details>
 
-## ⚒️ **Main Process** ##
-
-### 1️⃣ Data Cleaning & Preprocessing  
+## 🧹 Data Cleaning & Preprocessing
 
 [In 1]:  
 ```python
@@ -174,7 +179,7 @@ The following columns have inappropriate data types and should be converted to *
 - **Quantity < 0 but InvoiceNo does NOT start with 'C'** → These records contain **incorrect descriptions** and should be **excluded** from the dataset.
 - **UnitPrice < 0 & incorrect Description** → These are **invalid transactions** and should also be **removed** from the dataset.
 
-## **2️⃣ Exploratory Data Analysis (EDA)**
+## 🔍 Exploratory Data Analysis (EDA)
 
 ### 🛠 Step 1. Convert to correct Data type
 
@@ -272,7 +277,7 @@ The result (10038, 12) means there are 10,038 duplicate rows, and they need to b
    - These duplicates may occur due to system recording issues (e.g., a single order being split into multiple records with different quantities). 
    - **Action**: Sum the quantities of the duplicate entries to correct the data.
 
-### 3️⃣🔍 Apply RFM Model 
+## 🧮 Apply RFM Model
 
 #### 🛠 Step 1. Calculate RFM Score
 
@@ -357,7 +362,8 @@ RFM_final
 
 ![Image](https://github.com/user-attachments/assets/e597bac7-f7f6-4cce-baf6-2108d3d2b177)
 
-## 3️⃣ Visualization & Analysis
+
+## 📊 Visualization & Analysis
 
 #### **1. Contribution by Segmentation**
 
@@ -397,7 +403,8 @@ From the four analysis charts on contribution, monetary, recency, and frequency 
 
 ---
 
-### **📊 Key Findings**
+## 💡 Insight & Recommendation
+
 Based on the above analysis, we can see that some segments share similar characteristics. Therefore, we can group them into segment clusters for easier analysis and to propose suitable strategies as follows:
 
 **Group 1: High-Risk Customers (24%)**  
@@ -512,32 +519,27 @@ Based on the above analysis, we can see that some segments share similar charact
 - Develop **onboarding strategies** to encourage repeat purchases.  
 - Run **nurturing campaigns** and offer **welcome incentives**.  
 - Leverage **reviews** to build trust and influence purchases.
+
 ###  B. Business Recommendation
 
 In SuperStore's retail model, where the RFM (Recency, Frequency, Monetary) model is used for customer segmentation and marketing strategies, the primary **focus should be on Frequency (F)**.
 
-**Why Choose Frequency (F)?**  
+**B. Business Recommendation**
 
-**🔹 Increasing Purchase Frequency = Sustainable Revenue Growth**
-- If customers **buy more frequently**, revenue will **remain stable and grow**.  
-- Retaining existing customers is **cheaper than acquiring new ones** (reducing Customer Acquisition Cost - CAC).  
+In SuperStore's retail model, the **RFM (Recency, Frequency, Monetary)** model is key for segmentation and marketing strategies, with a primary focus on **Frequency (F)**.
 
-**🔹 Insights from the Charts: High-Risk Customers & New & Potential Segments Have Low Frequency**  
-- **High-Risk Customers**:  
-  - Used to be valuable customers but are **buying less frequently**.  
-  - Without intervention, they might **transition to the Inactive & Lost segment**.  
+**Why Focus on Frequency (F)?**
 
-- **New & Potential Customers**:  
-  - Still in the early stages, **low purchase frequency** means they haven't formed a habit.  
-  - If they are not encouraged to buy again, they may **lose interest and churn**.  
+🔹 **Increasing Purchase Frequency = Sustainable Revenue Growth**  
+- More frequent purchases lead to **stable and growing revenue**.  
+- **Retaining customers** is cheaper than acquiring new ones, reducing **Customer Acquisition Cost (CAC)**.
 
-**🔹 Even Loyal & High-Value Customers Need Retention Strategies**  
-- This group **currently maintains high purchase frequency**, but **if not nurtured**, their engagement may **gradually decline**.  
-- Strategies like **loyalty programs, exclusive deals, and personalized offers** can help sustain their buying behavior.  
+🔹 **Insights from the Charts: High-Risk & New Customers Have Low Frequency**  
+- **High-Risk Customers**: Once valuable, but now buying less often. Without action, they may move to the **Inactive** segment.  
+- **New & Potential Customers**: Low frequency indicates no buying habit yet. Without encouragement, they may churn.
 
-**🔹 Key Takeaway: Focus on Frequency for Long-Term Revenue Growth**  
+🔹 **Even Loyal Customers Need Retention**  
+- Loyal customers may have high frequency but could decrease without **nurturing**.  
+- Use **loyalty programs**, **exclusive deals**, and **personalized offers** to sustain engagement.
 
-✅ **Encouraging repeat purchases** strengthens customer loyalty and increases revenue.  
-✅ **Preventing high-risk customers from churning** ensures a stable customer base.  
-✅ **Developing purchase habits for new customers** helps convert them into long-term buyers.  
 
