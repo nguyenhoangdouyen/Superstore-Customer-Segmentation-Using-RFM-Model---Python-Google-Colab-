@@ -100,8 +100,6 @@ The dataset consists of **two tables (sheets)**:
 | **Lost Customers**       | 111, 112, 121, 131, 141, 151   |
 
 </details>
-|  
-- Key columns: `Segment`, `RFM Score`.
 
 ## ⚒️ **Main Process** ##
 
@@ -109,88 +107,37 @@ The dataset consists of **two tables (sheets)**:
 
 [In 1]:  
 ```python
-# Import required libraries for dataframe and visualization
-import pandas as pd
-import matplotlib.pyplot as plt
-import numpy as np
-import seaborn as sns
-import squarify
-```
-
-[In 2]:  
-```python
-# Load data into Colab  
-from google.colab import drive
-drive.mount('/content/drive')
-
-# Define the path to the project folder
-path = '/content/drive/MyDrive/Python_Nguyễn Hoàng Đỗ Uyên_RFM Project/'
-
-# Load data from Excel file
-ecommerce = pd.read_excel(path + 'ecommerce retail.xlsx', sheet_name='ecommerce retail')
-segmentation = pd.read_excel(path + 'ecommerce retail.xlsx', sheet_name='Segmentation')
-
-# Convert the files to CSV format
-ecommerce.to_csv(path + 'ecommerce.csv', index=False)
-segmentation.to_csv(path + 'segmentation.csv', index=False)
-```
-
-[In 3]:  
-```python
 # Print the first five rows of the dataset
 ecommerce.head()
 ```
-[Out 3]:  
+[Out 1]:  
 
 ![Image](https://github.com/user-attachments/assets/91b78596-07a3-4d9d-9fd1-a824b590a0e4)
 
-
-[In 4]:  
+[In 2]:  
 ```python
 # Check the general information of df
 ecommerce.info()
 ```
-[Out 4]:  
+[Out 2]:  
 
 ![Image](https://github.com/user-attachments/assets/deae7032-863a-4694-9229-ac9e649efe18)
 
-[In 5]:
+[In 3]:
 ```python
 # Check Data Summary
 ecommerce.describe()
 ```
-[Out 5]:
+[Out 3]:
 
 ![Image](https://github.com/user-attachments/assets/6731170f-672e-4c4b-8493-a9721f239813)
+
+#### Summary:
 
 ⚡During the initial data exploration, it was observed that the **Quantity** and **Unit Price** columns contain negative values. This is not logically valid and requires further investigation. Possible actions include:
 - Checking for data entry errors.
 - Identifying whether negative values indicate refunds or cancellations.
 - Removing or adjusting incorrect data points to ensure accuracy in analysis.
-
-[In 6]:
-```python
-# Deeper Analysis on Stock Code and Invoice No
-stock_code = ecommerce[['StockCode','InvoiceNo']].groupby('StockCode')['InvoiceNo'].agg('count').reset_index().sort_values(by='InvoiceNo', ascending=False)
-print(stock_code.head(5))
-print(stock_code.tail(5))
-print(len(stock_code))
-```
-[Out 6]:
-
-![Image](https://github.com/user-attachments/assets/4ee24107-c599-4c7b-86c3-ed09cde6c8b3)
-
-[In 7]:
-
-```python
-# Check frequency of each product description. This helps identify the most and least common products in transactions
-description_check = ecommerce[['Description','InvoiceNo']].groupby(['Description']).count().reset_index().sort_values(by=['InvoiceNo'], ascending=False)
-print(description_check.head())  # Top 5 most common descriptions
-print(len(description_check))  # Total unique descriptions
-```
-[Out 7]:
-
-![Image](https://github.com/user-attachments/assets/9cdb5e74-1ef8-4736-9f6b-8022337e5a55)
 
 #### ⚡ Data Quality Insights
 
@@ -202,71 +149,22 @@ During the initial data exploration, a mismatch was identified between **Stock C
 
 It is recommended to conduct additional validation and data cleaning to ensure consistency and accuracy in analysis.
 
-[In 8]:
-To validate and review the processed data, export the **description_check** dataframe to an Excel file.
-
-```python
-# Export Data for Double-Checking Orders
-description_check.to_excel(path + 'description_check.xlsx')
-```
-
-[Out 8]:
-![Image](https://github.com/user-attachments/assets/73a60e98-6a2a-4925-8e38-7bd9e1a1e1bc)
-
 #### ⚠ Manual Review Required
 
 Some orders contain incorrect **descriptions** → Perform a **manual check** and mark them as **errors** to facilitate further processing.
 
-[In 9]:
-To obtain a complete dataset with flagged erroneous orders, merge the **description_check_update** file with the **ecommerce** dataset.
+### 🔎 Data Validation & Error Identification  
 
-```python
-#Merging Data for Error Identification
-ecommerce_update = ecommerce.merge(description_check_update[['Description','Error']], how='left', on='Description')
-```
-#### 🔍 Checking If Negative Quantities Indicate Cancellations
+- **Flagged Erroneous Orders**: Merged `description_check_update` with `ecommerce` to detect inconsistencies in product descriptions.  
+- **Checked Negative Quantities & Cancellations**: Identified if negative **Quantity** values correspond to cancellations by verifying **InvoiceNo** starting with "C".  
 
-[In 10]:
-To verify whether transactions with negative **Quantity** values are due to order cancellations (indicated by **InvoiceNo** starting with "C"), apply the following condition:
-
-```python
-ecommerce_update['InvoiceNo'] = ecommerce_update['InvoiceNo'].astype(str)
-ecommerce_update['cancel_invoice'] = ecommerce_update.apply(
-    lambda x: True if x['Quantity'] < 0 and x['InvoiceNo'].startswith('C') else False, axis=1)
-```
+📌 **Recommendation**: Review flagged errors and cancellations to ensure data integrity before analysis.  
 
 #### 🚨 Identifying Invalid Transactions
 
 After flagging cancellations, verify if there are any transactions where **Quantity** is negative, but the **InvoiceNo** does not start with "C". These may indicate data inconsistencies.
 
-[In 11]:
-
-```python
-check_invalid_invoice = ecommerce_update[(ecommerce_update['cancel_invoice'] == False) & (ecommerce_update['Quantity'] < 0)]
-print(len(check_invalid_invoice))  # Number of inconsistent records
-check_invalid_invoice.head()  # Preview of invalid records
-```
-[Out 11]:
-
-![Image](https://github.com/user-attachments/assets/f6708de9-d4fb-45a7-be28-ca4dfb886f99)
-
-#### ⚠ Further Investigation: Negative Quantity Without Cancellation
-
-After checking, it was found that some orders **do not have "C" in InvoiceNo** but still have **negative Quantity**. To analyze the cause, export the file for further review.
-
-[In 12 ]:
-
-```python
-# Filtered UnitPrice <0
-print(len(ecommerce_update[ecommerce_update['UnitPrice'] < 0 ]))
-ecommerce_update[ecommerce_update['UnitPrice'] < 0 ].head()
-```
-
-[Out 12 ]:
-
-![Image](https://github.com/user-attachments/assets/32e6169f-c53e-472a-a6df-88863817444a)
-
-#### ✨ General Observations
+### ✨ Conclusion:
 
 **Data Types:**
 The following columns have inappropriate data types and should be converted to **strings** for easier processing:
@@ -277,11 +175,11 @@ The following columns have inappropriate data types and should be converted to *
 - **Quantity < 0 but InvoiceNo does NOT start with 'C'** → These records contain **incorrect descriptions** and should be **excluded** from the dataset.
 - **UnitPrice < 0 & incorrect Description** → These are **invalid transactions** and should also be **removed** from the dataset.
 
-### **2️⃣ Exploratory Data Analysis (EDA)**
+## **2️⃣ Exploratory Data Analysis (EDA)**
 
 🛠 To ensure proper data processing, we need to convert specific columns to the appropriate data types:
 
-[In 13]:
+[In 4]:
 ```python
 # Convert selected columns to string type
 column_list = ["InvoiceNo", "StockCode", "Description", "CustomerID", "Country"]
@@ -296,7 +194,7 @@ ecommerce_update['InvoiceDate'] = pd.to_datetime(ecommerce_update['InvoiceDate']
 
 To ensure data quality, the following steps were taken to remove invalid records:
 
-[In 14]:
+[In 5]:
 
 ```python
 # 1. Remove canceled orders (InvoiceNo starting with 'C')
@@ -314,7 +212,7 @@ ecommerce_update = ecommerce_update[ecommerce_update['UnitPrice'] > 0]
 
 🛠 Checking Missing Values in CustomerID & Error Columns
 
-[In 15]:
+[In 6]:
 
 ```python
 import missingno as msno
