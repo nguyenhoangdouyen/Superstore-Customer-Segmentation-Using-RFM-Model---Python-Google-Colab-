@@ -10,15 +10,15 @@
 
 ## 📑 Table of Contents 
 
-[📌 Background & Overview](#background-and-overview)  
-[📂 Dataset Description & Data Structure](#dataset-description-and-data-structure)  
-[🧹 Data Cleaning & Preprocessing](#data-cleaning-and-preprocessing)  
-[🔍 Exploratory Data Analysis (EDA)](#exploratory-data-analysis-eda)  
-[🧮 Apply RFM Model](#apply-rfm-model)  
-[📊 Visualization & Analysis](#visualization-and-analysis)  
-[💡 Insight & Recommendation](#insight-and-recommendation)
+[📌 1. Background & Overview](#1-background--overview)  
+[📂 2. Dataset Description & Data Structure](#2-dataset-description--data-structure)  
+[🧹 3. Data Cleaning & Preprocessing](#3-data-cleaning--preprocessing)  
+[🔍 4. Exploratory Data Analysis (EDA)](#4-exploratory-data-analysis-eda)  
+[🧮 5. Apply RFM Model](#5-apply-rfm-model)  
+[📊 6. Visualization & Analysis](#6-visualization--analysis)  
+[💡 7. Insight & Recommendation](#7-insight--recommendation)
 
-## 📌 Background & Overview 
+## 1. 📌 Background & Overview
 
 ### Objective ###
 
@@ -51,13 +51,13 @@ RFM (Recency, Frequency, Monetary) is a customer analysis technique based on pur
 - **Monetary**: Calculates the total amount spent by the customer.  
 By applying RFM, businesses can segment customers based on their value, allowing them to optimize marketing and customer engagement strategies.  
 
-## 📂 Dataset Description & Data Structure
+## 2. 📂 Dataset Description & Data Structure
 
 ### 📌 Data Source  
 - **Source**: Provided dataset for E-commerce retail analysis  
 - **Size**: 541,910 rows × 8 columns (Sheet 1: E-commerce retail), additional segmentation details in Sheet 2  
 - **Format**: .xlsx (Excel file with two sheets)  
-## 📊 Data Structure & Relationships  
+## 📂 Data Structure & Relationships  
 
 ### 1️⃣ Tables Used  
 The dataset consists of **two tables (sheets)**:  
@@ -107,7 +107,7 @@ The dataset consists of **two tables (sheets)**:
 
 </details>
 
-## 🧹 Data Cleaning & Preprocessing
+## 3. 🧹 Data Cleaning & Preprocessing
 
 [In 1]:  
 ```python
@@ -178,7 +178,7 @@ The following columns have inappropriate data types and should be converted to *
 - **Quantity < 0 but InvoiceNo does NOT start with 'C'** → These records contain **incorrect descriptions** and should be **excluded** from the dataset.
 - **UnitPrice < 0 & incorrect Description** → These are **invalid transactions** and should also be **removed** from the dataset.
 
-## 🔍 Exploratory Data Analysis (EDA)
+## 4. 🔍 Exploratory Data Analysis (EDA)
 
 ### 🛠 Step 1. Convert to correct Data type
 
@@ -276,7 +276,7 @@ The result (10038, 12) means there are 10,038 duplicate rows, and they need to b
    - These duplicates may occur due to system recording issues (e.g., a single order being split into multiple records with different quantities). 
    - **Action**: Sum the quantities of the duplicate entries to correct the data.
 
-## 🧮 Apply RFM Model
+## 5. 🧮 Apply RFM Model
 
 #### 🛠 Step 1. Calculate RFM Score
 
@@ -367,7 +367,7 @@ RFM_final
 ![Image](https://github.com/user-attachments/assets/e597bac7-f7f6-4cce-baf6-2108d3d2b177)
 
 
-## 📊 Visualization & Analysis
+## 6. 📊 Visualization & Analysis
 
 ### **1. Contribution by Segmentation
 
@@ -486,7 +486,7 @@ Based on the above analysis, we can see that some segments share similar charact
 ![image](https://github.com/user-attachments/assets/2699a1ef-3b76-4a1c-9561-5493acbce2c9)
 
 
-## **📌 3. Final Conclusion & Recommendations**
+## 7. 💡 Insight & Recommendation
 
 ###  A. Customer Segmentation Strategy
 👉🏻 Based on the insights above, we recommend the following:
