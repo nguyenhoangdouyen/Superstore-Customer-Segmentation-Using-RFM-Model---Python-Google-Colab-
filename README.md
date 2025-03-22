@@ -4,19 +4,19 @@
 
 **Author:** Nguyễn Hoàng Đỗ Uyên
 
-**Date:** 10/03/2001
+**Date:** March 2025
 
 **Tools Used:** Python
 
 ## 📑 Table of Contents 
 
-[📌 Background & Overview](#background--overview)  
-[📂 Dataset Description & Data Structure](#dataset-description--data-structure)  
-[🧹 Data Cleaning & Preprocessing](#data-cleaning--preprocessing)  
+[📌 Background & Overview](#background-and-overview)  
+[📂 Dataset Description & Data Structure](#dataset-description-and-data-structure)  
+[🧹 Data Cleaning & Preprocessing](#data-cleaning-and-preprocessing)  
 [🔍 Exploratory Data Analysis (EDA)](#exploratory-data-analysis-eda)  
 [🧮 Apply RFM Model](#apply-rfm-model)  
-[📊 Visualization & Analysis](#visualization--analysis)  
-[💡 Insight & Recommendation](#insight--recommendation)
+[📊 Visualization & Analysis](#visualization-and-analysis)  
+[💡 Insight & Recommendation](#insight-and-recommendation)
 
 ## 📌 Background & Overview 
 
@@ -299,7 +299,7 @@ RFM_df = ecommerce_update.groupby('CustomerID').agg(
 RFM_df
 ```
 
-**🔍 Check outlier**
+#### 🛠 Step 2. Check outlier
 
 [In 9]:
 
@@ -320,7 +320,7 @@ sns.boxplot(data=RFM_df, x='Frequency')
 **📌 Solution**
 We set a 95% threshold for **Recency**, **Frequency**, and **Monetary** to remove extreme values (outliers) from the dataset. This ensures that the analysis focuses on the majority of the data, improving its reliability for further insights.
 
-**🔍Assign RFM scores using Qcut** 
+#### 🛠 Step 3. Assign RFM scores using Qcut
 
 [In 10]:
 
@@ -342,7 +342,9 @@ RFM_update['RFM'] = (
 )
 ```
 
-**🔍Process the segmentation table & merge with RFM_df**
+#### 🛠 Step 4. Calculate RFM Score
+
+Process the segmentation table & merge with RFM_df
 
 [In 11]:
 
