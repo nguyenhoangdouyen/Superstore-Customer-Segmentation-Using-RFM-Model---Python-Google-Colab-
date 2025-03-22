@@ -157,8 +157,7 @@ Some orders contain incorrect **descriptions** → Perform a **manual check** an
 
 - **Flagged Erroneous Orders**: Merged `description_check_update` with `ecommerce` to detect inconsistencies in product descriptions.  
 - **Checked Negative Quantities & Cancellations**: Identified if negative **Quantity** values correspond to cancellations by verifying **InvoiceNo** starting with "C".  
-
-📌 **Recommendation**: Review flagged errors and cancellations to ensure data integrity before analysis.  
+-> Review flagged errors and cancellations to ensure data integrity before analysis.  
 
 #### 🚨 Identifying Invalid Transactions
 
@@ -177,7 +176,7 @@ The following columns have inappropriate data types and should be converted to *
 
 ## **2️⃣ Exploratory Data Analysis (EDA)**
 
-🛠 To ensure proper data processing, we need to convert specific columns to the appropriate data types:
+### 🛠 Step 1. Convert to correct Data type
 
 [In 4]:
 ```python
@@ -190,7 +189,7 @@ for c in column_list:
 ecommerce_update['InvoiceDate'] = pd.to_datetime(ecommerce_update['InvoiceDate'])
 ```
 
-🛠 Data Cleaning: Removing Invalid Transactions
+### 🛠 Step 2. Removing Invalid Transactions
 
 To ensure data quality, the following steps were taken to remove invalid records:
 
@@ -210,7 +209,7 @@ ecommerce_update = ecommerce_update[ecommerce_update['Error'] != 1]
 ecommerce_update = ecommerce_update[ecommerce_update['UnitPrice'] > 0]
 ```
 
-🛠 Checking Missing Values in CustomerID & Error Columns
+### 🛠 Step 3. 🛠 Checking Missing Values in CustomerID & Error Columns
 
 [In 6]:
 
@@ -255,19 +254,13 @@ Before executing the code: It is important to check if the missing **CustomerID*
 **✅ Solution:**
 Since **CustomerID is essential**, drop missing values to maintain data integrity.
 
-```python
-# Remove transactions with missing CustomerID
-ecommerce_update = ecommerce_update.dropna(subset=['CustomerID'])
-```
+### 🛠 Step 4. Handle duplicate**
 
-**🔍 Check duplicate**
 [In 16]: 
+
 ```python
 # Identify duplicate rows based on 'InvoiceNo', 'StockCode', 'InvoiceDate', and 'CustomerID'
 ecommerce_duplicate = ecommerce_update[ecommerce_update.duplicated(subset=['InvoiceNo', 'StockCode', 'InvoiceDate', 'CustomerID'])]
-
-# Print the number of duplicate rows found
-print(ecommerce_duplicate.shape)
 ```
 
 The result (10038, 12) means there are 10,038 duplicate rows, and they need to be detected and handled in **two cases**: 
@@ -279,59 +272,10 @@ The result (10038, 12) means there are 10,038 duplicate rows, and they need to b
    - These duplicates may occur due to system recording issues (e.g., a single order being split into multiple records with different quantities). 
    - **Action**: Sum the quantities of the duplicate entries to correct the data.
 
-**🔍 Detecting and Handling Duplicate Rows:** 
+### 3️⃣🔍 Apply RFM Model 
 
-**1. Detecting Exact Duplicate Rows:**
-   - The following code detects rows that are completely duplicated based on `InvoiceNo`, `StockCode`, `InvoiceDate`, `CustomerID`, and `Quantity`.
-[In 17]:
+#### 🛠 Step 1. Calculate RFM Score
 
-```python
-# Detect exact duplicate rows based on 'InvoiceNo', 'StockCode', 'InvoiceDate', 'CustomerID', and 'Quantity'
-invoice_duplicate_total = ecommerce_update[ecommerce_update.duplicated(subset=['InvoiceNo', 'StockCode', 'InvoiceDate', 'CustomerID', 'Quantity'])]
-```
-
-**2. Grouping and Aggregating Data for Exact duplicate:**
-The following code groups the data by `InvoiceNo`, `StockCode`, `InvoiceDate`, `CustomerID`, and `Quantity`, and keeps the first occurrence of other columns:
-
-[In 18]:
-
-```python
-# Group by 'InvoiceNo', 'StockCode', 'InvoiceDate', 'CustomerID', and 'Quantity' and keep the first occurrence of other columns
-ecommerce_update = ecommerce_update.groupby(['InvoiceNo', 'StockCode', 'InvoiceDate', 'CustomerID', 'Quantity'], as_index=False).agg({
-    'UnitPrice': 'first',         
-    'Description': 'first',       
-    'Country': 'first',           
-    'Error': 'first',              
-    'cancel_invoice': 'first',   
-    'Date': 'first',              
-    'Month': 'first'               
-})
-```
-
-**3. Grouping and Summing Quantities for Partial duplicate:**
-
-After filtering out fully duplicated transactions, the remaining duplicates differ in quantity -> Sum Quantity
-
-[In 19]:
-
-```python
-ecommerce_update = ecommerce_update.groupby(
-    ['InvoiceNo', 'StockCode', 'InvoiceDate', 'CustomerID'], as_index=False
-).agg({
-    'Quantity': 'sum',
-    'UnitPrice': 'first',
-    'Description': 'first',
-    'Country': 'first',
-    'Error': 'first',
-    'cancel_invoice': 'first',
-    'Date': 'first',
-    'Month': 'first'
-})
-
-print(len(ecommerce_update))
-```
-
-**🔍 Prepare RFM Dataframe for calculating**
 [In 20]:
 
 ```python
@@ -368,38 +312,8 @@ sns.boxplot(data=RFM_df, x='Frequency')
 
 ![Image](https://github.com/user-attachments/assets/dd08a423-d0da-43a5-bbfe-24ddf6c85bcf)
 
-[In 22]:
-**🔍 Drop outlier**
-```python
-# Set the 95th percentile threshold for 'Recency'
-R_update = RFM_df['Recency'].quantile(0.95)
-
-# Set the 95th percentile threshold for 'Frequency'
-F_update = RFM_df['Frequency'].quantile(0.95)
-
-# Set the 95th percentile threshold for 'Monetary'
-M_update = RFM_df['Monetary'].quantile(0.95)
-
-# Filter out rows where any column exceeds the 95th percentile threshold
-RFM_update = RFM_df[(RFM_df['Recency'] <= R_update) & 
-                     (RFM_df['Frequency'] <= F_update) & 
-                     (RFM_df['Monetary'] <= M_update)]
-```
-[In 23]:
-```python
-# Check for outliers in the 'Recency' column after filtering
-sns.boxplot(data=RFM_update, x='Recency')
-
-# Check for outliers in the 'Frequency' column after filtering
-sns.boxplot(data=RFM_update, x='Frequency')
-
-# Check for outliers in the 'Monetary' column after filtering
-sns.boxplot(data=RFM_update, x='Monetary')
-```
-
-[Out 23]:
-
-![Image](https://github.com/user-attachments/assets/80aaab5a-24ec-4cd2-ae78-bbbe90208ae9)
+**📌 Solution**
+We set a 95% threshold for **Recency**, **Frequency**, and **Monetary** to remove extreme values (outliers) from the dataset. This ensures that the analysis focuses on the majority of the data, improving its reliability for further insights.
 
 **🔍Assign RFM scores using Qcut** 
 
@@ -444,123 +358,29 @@ RFM_final
 ![Image](https://github.com/user-attachments/assets/e597bac7-f7f6-4cce-baf6-2108d3d2b177)
 
 ## 3️⃣ Visualization & Analysis
-**1. Contribution by Segmentation**
 
-[In 26]:
-
-```python
-
-# Count the number of customers in each segment
-count_segment_by_users = RFM_final[['CustomerID', 'Segment']].groupby(['Segment'])['CustomerID'].count().reset_index().rename(columns={'CustomerID': 'Count'})
-
-# Calculate the percentage of each segment
-count_segment_by_users['percent_segment_by_users'] = round(count_segment_by_users['Count'] / count_segment_by_users['Count'].sum() * 100)
-
-# Format segment names to include percentage
-count_segment_by_users['Segment'] = count_segment_by_users['Segment'] + ' ' + count_segment_by_users['percent_segment_by_users'].astype(str) + '%'
-
-# Plot a treemap to visualize segment contribution
-plt.figure(figsize=(12, 8))
-squarify.plot(
-    sizes=count_segment_by_users['percent_segment_by_users'], 
-    label=count_segment_by_users['Segment'], 
-    color=sns.color_palette("Spectral"), 
-    alpha=0.8, 
-    text_kwargs={'fontsize': 8}
-)
-plt.title("Contribution by Segment", fontsize=10)
-plt.axis('off')  # Hide axes for better visualization
-plt.show()
-```
-
-[Out 26]:
+#### **1. Contribution by Segmentation**
 
 ![image](https://github.com/user-attachments/assets/3ab19206-d207-4783-8dfb-fd9c150295cc)
 
-**2. Segmentation by Spending**
+#### 2. Segmentation by Spending 
 
-[In 27]:
-
-```python
-
-# Aggregate total spending for each segment
-segment_by_spending = RFM_final[RFM_final.Monetary > 0][['Segment', 'Monetary']].groupby('Segment')['Monetary'].sum().reset_index().rename(columns={'Monetary': 'Spending'})
-
-# Calculate the percentage contribution of each segment to total spending
-segment_by_spending['percent_segment_by_spending'] = round(segment_by_spending['Spending'] / segment_by_spending['Spending'].sum() * 100)
-
-# Convert percentage values to integers for better readability
-segment_by_spending['percent_segment_by_spending'] = segment_by_spending['percent_segment_by_spending'].astype(int)
-
-# Append percentage values to segment labels
-segment_by_spending['Segment'] = segment_by_spending['Segment'] + ' ' + segment_by_spending['percent_segment_by_spending'].astype(str) + '%'
-
-# Remove segments with 0% contribution
-segment_by_spending = segment_by_spending[segment_by_spending.percent_segment_by_spending > 0]
-
-# Plot a treemap to visualize spending distribution by segment
-plt.figure(figsize=(12, 8))
-squarify.plot(
-    sizes=segment_by_spending['percent_segment_by_spending'], 
-    label=segment_by_spending['Segment'], 
-    color=sns.color_palette("Set2"), 
-    alpha=0.8, 
-    text_kwargs={'fontsize': 8}
-)
-plt.title("Segmentation by Spending", fontsize=10)
-plt.axis('off')  # Hide axes for better visualization
-plt.show()
-```
-
-[Out 27]:
 ![image](https://github.com/user-attachments/assets/7eddbdd6-271c-4ccf-9fe5-21f615ebee93)
 
-**3. Segmentation by Frequency**
-
-[In 28]:
-
-```python
-
-# Calculate the average frequency of purchases for each segment
-segment_by_frequency = RFM_final[RFM_final.Frequency > 0][['Segment', 'Frequency']].groupby('Segment')['Frequency'].mean().reset_index()
-
-# Plot a bar chart to visualize the average frequency per segment
-plt.figure(figsize=(12, 8))
-sns.barplot(data=segment_by_frequency, x='Frequency', y='Segment')
-plt.xlabel('Average Purchase Frequency')
-plt.ylabel('Segment')
-plt.title('Segmentation by Frequency')
-plt.show()
-```
-[Out 28:
+#### 3. Segmentation by Frequency
 
 ![image](https://github.com/user-attachments/assets/45dd4769-edb2-40d4-9292-08ad1074becc)
 
-**4. Segmentation by Recency**
-
-[In 29]:
-
-```python
-
-# Calculate the average recency (days since last purchase) for each segment
-segment_by_recency = RFM_final[RFM_final.Recency > 0][['Segment', 'Recency']].groupby('Segment')['Recency'].mean().reset_index()
-
-# Plot a bar chart to visualize the average recency per segment
-plt.figure(figsize=(12, 8))
-sns.barplot(data=segment_by_recency, x='Recency', y='Segment')
-plt.xlabel('Average Recency (Days)')
-plt.ylabel('Segment')
-plt.title('Segmentation by Recency')
-plt.show()
-```
-
-[Out 29]:
+#### 4. Segmentation by Recency**
 
 ![image](https://github.com/user-attachments/assets/98b9e2f0-aa9e-43a0-98b2-0486db1603dd)
 
+--- 
 
 ### **📊 Observations **
+
 From the four analysis charts on contribution, monetary, recency, and frequency for each segment, we can analyze the behavior of the 11 segments as follows:
+
 | Segment              | R (Recency) | F (Frequency) | M (Monetary) | **Characteristics** |
 |----------------------|------------|--------------|-------------|---------------------|
 | **Champions (17%)**  | R **very low** (~10-20 days) | F **very high** (~200+ times) | M **highest** (~27% revenue) | The best customer group, **contributing significantly to revenue**. Should be **nurtured continuously**. |
@@ -575,10 +395,10 @@ From the four analysis charts on contribution, monetary, recency, and frequency 
 | **Hibernating (18%)**  | R **very high** (~200 days) | F **very low** (~10-20 times) | M **very low** (~2% revenue) | Customers who **purchased before but have been inactive for a long time**. |
 | **Lost Customers (9%)**  | R **extremely high** (220+ days) | F **extremely low** (~5-10 times) | M **very low** (~1-2% revenue) | **Nearly lost customers** with a **very low chance of returning** without **strong intervention**. |
 
+---
+
 ### **📊 Key Findings**
 Based on the above analysis, we can see that some segments share similar characteristics. Therefore, we can group them into segment clusters for easier analysis and to propose suitable strategies as follows:
-
----
 
 **Group 1: High-Risk Customers (24%)**  
 
@@ -589,7 +409,6 @@ Based on the above analysis, we can see that some segments share similar charact
 - They have a **long time since their last purchase (100 - 150 days)** and previously **contributed significantly to revenue**.  
 - Without intervention, they **are likely to leave completely**.  
 
----
 
 **Group 2: Loyal & High-Value Customers (38%)**  
 
@@ -600,8 +419,6 @@ Based on the above analysis, we can see that some segments share similar charact
 - They **remain highly active**, with **a relatively short time since their last purchase (10 - 50 days)**.  
 - Although their **revenue contribution varies**, they all **have long-term potential if nurtured properly**.  
 
----
-
 **Group 3: New & Potential Customers (25%)**  
 
 📌 **Includes:** New Customers (17%), Promising (8%)  
@@ -610,8 +427,6 @@ Based on the above analysis, we can see that some segments share similar charact
 - This group consists mostly of **new customers or those showing signs of growth**.  
 - They have **recent interactions (30 - 50 days)** but **low purchase frequency and revenue contribution**.  
 - They **have the potential to become loyal customers if they continue purchasing**.  
-
----
 
 **Group 4: Inactive & Lost Customers (13%)**  
 
@@ -623,53 +438,11 @@ Based on the above analysis, we can see that some segments share similar charact
 
 **5. Distribution of RFM over Time**
 
-```python
-# Merge `RFM_final` & ecommerce_update
-RFM_final_merge = RFM_final.merge(ecommerce_update, on='CustomerID', how='left')
-```
-
-**5.1 Money**
-
-[In 30]:
-
-```python
-# Calculate average RFM grouped by month
-RFM_by_month = RFM_final_merge.groupby('Month')['Monetary'].mean().reset_index()
-
-# Plot line chart
-plt.figure(figsize=(12,6))
-sns.lineplot(data=RFM_by_month, x='Month', y='Monetary', label='Monetary', marker='o')
-plt.title('Distribution of Monetary over Time')
-plt.xlabel('Month')
-plt.ylabel('Average Monetary Value')
-plt.grid(True)
-plt.show()
-```
-[Out 30]: 
-
 ![image](https://github.com/user-attachments/assets/31f9cf39-bc39-4ae6-9b91-f4e75fda2db3)
 
-[In 31]:
-
-```python
-# Calculate average RFM grouped by month
-RFM_by_month = RFM_final_merge.groupby('Month')[['Recency', 'Frequency']].mean().reset_index()
-
-# Plot line chart
-plt.figure(figsize=(12,6))
-sns.lineplot(data=RFM_by_month, x='Month', y='Recency', label='Recency', marker='o')
-sns.lineplot(data=RFM_by_month, x='Month', y='Frequency', label='Frequency', marker='o')
-plt.title('Distribution of RFM over Time')
-plt.xlabel('Month')
-plt.ylabel('Average Value')
-plt.legend()
-plt.grid(True)
-plt.show()
-```
-
-[Out 31]: 
-
 ![image](https://github.com/user-attachments/assets/cc76d31f-142b-4b1d-9e7b-463996cebdc7)
+
+---
 
 ### 📊 Observations:
 
@@ -679,116 +452,21 @@ plt.show()
 
 - **Monetary:** This metric exhibits **significant fluctuations**, with **sharp peaks and dips**. This indicates that the **monetary value spent by customers is not stable**, potentially due to **promotional campaigns, seasonal effects, or changes in purchasing behavior**.  
 
-➡️ **Further analysis is needed** to determine **which segments** are driving these increases and decreases.
+#### ➡️ **Further analysis is needed** to determine **which segments** are driving these increases and decreases.
 
-
-**6. Group Segment by Contribution**
-
-[In 32]:
-```python
-# Classify into Group Segments
-RFM_final['Group Segment'] = RFM_final['Segment'].apply(
-    lambda x: 'High Risk Customers' if x in high_risk else
-              'Loyal & High Value' if x in loyal_high_value else
-              'New & Potential' if x in potential else
-              'Inactive & Lost' if x in lost else 'Others'
-)
-
-# Count the number of customers in each Group Segment
-group_counts = RFM_final['Group Segment'].value_counts()
-
-# Calculate the percentage share of each group
-group_percentages = (group_counts / len(RFM_final)) * 100
-
-# Plot pie chart
-plt.figure(figsize=(8, 8))
-plt.pie(group_percentages, labels=group_percentages.index, autopct='%1.1f%%', startangle=140)
-plt.axis('equal')
-plt.title('Group Segment by Contribution')
-
-plt.show()
-```
-
-[Out 32]:
+#### 6. Group Segment by Contribution
 
 ![image](https://github.com/user-attachments/assets/0ce9df4f-60fa-4579-a84c-28972a6573e2)
 
+#### 7. Segment Distribution Across Countries
 
-**7. Segment Distribution Across Countries**
-Since **UK contributes significantly to the total**, the overall chart mainly represents the UK market. To gain clearer insights into other countries, we need to exclude UK data.
-
-[In 33]:
-```python
-# Calculate segment distribution by country
-segmentation_by_location = RFM_final_merge.groupby(['Country', 'Group Segment'])['CustomerID'].nunique().unstack()
-
-# Remove 'United Kingdom'
-segment_without_UK = segmentation_by_location.drop(index=['United Kingdom'])
-
-# Plot the data
-segment_without_UK.plot(kind='barh', stacked=True, figsize=(20, 8))
-plt.xlabel('Country')
-plt.ylabel('Number of Customers')
-plt.title('Distribution of Segment by Country Without UK')
-plt.xticks(rotation=45, fontsize=8)
-plt.legend(title='Segment')
-plt.show()
-```
-
-[Out 33]:
 ![image](https://github.com/user-attachments/assets/efc0d66f-e3e6-4c4a-808b-43c4dce3dff1)
 
-**8. Segmentation Distribution Over Time**
+#### 8. Segmentation Distribution Over Time
 
-[In 34]:
-
-```python
-# Convert Month to correct data type
-RFM_final_merge['Month'] = pd.to_datetime(RFM_final_merge['Month'], errors='coerce')
-
-# Count customers in each Group Segment per month
-monthly_trend = RFM_final_merge.groupby(['Month', 'Group Segment']).size().reset_index(name='Count')
-
-# Plot the trend for each Group Segment over time
-plt.figure(figsize=(12, 6))
-for segment in monthly_trend['Group Segment'].unique():
-    data = monthly_trend[monthly_trend['Group Segment'] == segment]
-    plt.plot(data['Month'], data['Count'], marker='o', label=segment)
-
-plt.xlabel('Month')
-plt.ylabel('Number of Customers')
-plt.title('Trend of Group Segment')
-plt.xticks(rotation=45)
-plt.legend(title='Group Segment')
-plt.grid(True, linestyle='--', alpha=0.7)
-```
-
-[Out 34]:
 ![image](https://github.com/user-attachments/assets/c9067fb5-d8ff-4dee-9f22-9a4c18d6f887)
 
-**9. Trend of Recency, Frequency, Monetary by Month**
-
-[In 35]:
-```python
-# Calculate the average RFM values per Group Segment each month
-rfm_trend = RFM_final_merge.groupby(['Month', 'Group Segment'])[['Recency', 'Frequency', 'Monetary']].mean().reset_index()
-
-# Plot the trends
-plt.figure(figsize=(12, 6))
-for metric in ['Recency', 'Frequency', 'Monetary']:
-    # Pivot data by Group Segment
-    pivot_data = rfm_trend.pivot(index='Month', columns='Group Segment', values=metric)
-
-    # Plot Area Chart
-    pivot_data.plot(kind='area', stacked=True, alpha=0.7, figsize=(12, 6))
-    plt.title(f'Trend of {metric} by Group Segment')
-    plt.ylabel(metric)
-    plt.xlabel('Month')
-    plt.legend(title='Group Segment')
-    plt.show()
-```
-
-[Out 35]:
+#### 9. Trend of Recency, Frequency, Monetary by Month
 
 ![image](https://github.com/user-attachments/assets/ae538626-3639-40e8-b916-a6dcfccea2ee)
 
@@ -800,58 +478,40 @@ for metric in ['Recency', 'Frequency', 'Monetary']:
 ## **📌 3. Final Conclusion & Recommendations**
 
 ###  A. Customer Segmentation Strategy
-👉🏻 Based on the insights and findings above, we would recommend the [stakeholder team] to consider the following:
+👉🏻 Based on the insights above, we recommend the following:
 
 **1. Loyal & High Value Group (38.3%)**  
-- This group accounts for **38.3% of total customers** and contributes **the most to revenue**. They are strongly present in **key markets**.  
-- Their purchasing behavior is **stable**, but **Recency is decreasing**, indicating a need for retention strategies.  
-- **Total spending remains high**, showing their willingness to pay more, especially for **high-value products**.  
+- **38.3%** of customers, **highest revenue contribution**.  
+- Stable purchases but decreasing **Recency**.  
+- High willingness to pay for **premium products**.
 
 **🔹 Recommendation:**  
-- **Analyze their preferred products** to develop **premium versions** or **expand the product lineup**.  
-- **Test upselling, bundling strategies**, and **exclusive offers** to increase order value.  
-- **Implement a long-term loyalty program** to retain this segment.  
-- **Encourage reviews & referrals** to expand the loyal customer base.  
+- Analyze preferred products, create **premium versions**.  
+- Test **upselling, bundling**, and **exclusive offers**.  
+- Implement **loyalty programs**, and encourage **reviews & referrals**.
 
 ---
 
 **2. High-Risk Customers (23.5%)**  
-- This segment **used to have high spending but has significantly declined**.  
-- Recency is **increasing**, meaning they are **purchasing less frequently**.  
-- Revenue from this group is **gradually decreasing**, and without intervention, they may be lost entirely.  
+- Previously high spending but now declining.  
+- **Increasing Recency**, purchasing less frequently.  
+- Gradual revenue decrease.
 
 **🔹 Recommendation:**  
-- **Launch re-engagement campaigns** with **personalized incentives** to bring them back.  
-- **Offer special vouchers or discounts** for their next purchase.  
-- **Create targeted marketing content** (emails, push notifications) emphasizing product value.  
-- **Reach out directly to VIP customers** to understand their reasons for disengagement and adjust strategies accordingly.  
+- Launch **re-engagement campaigns** with **personalized incentives**.  
+- Offer **special discounts** and targeted **marketing content**.  
+- Reach out to **VIP customers** to understand disengagement.
 
 ---
 
 **3. New & Potential Customers (11.7%)**  
-- This group has **low spending but potential for growth**.  
-- Purchase frequency is **still low**, requiring efforts to encourage repeat purchases.  
-- Buying behavior is **increasing slightly but remains unstable**.  
+- Low spending, but growth potential.  
+- **Increasing** purchase frequency, but still unstable.
 
 **🔹 Recommendation:**  
-- **Develop an onboarding strategy** to help customers explore and buy products easily.  
-- **Run nurturing campaigns** to remind them of relevant products.  
-- **Leverage reviews & feedback from Loyal customers** to build trust and influence purchasing decisions.  
-- **Offer welcome incentives** to encourage their first or repeat purchases.  
-
----
-
-**4. Inactive & Lost Customers (26.6%)**  
-- This group makes up **26.6% of total customers**, but contributes **little to revenue**.  
-- Recency is **very high**, meaning they haven’t purchased in a long time.  
-- **Revenue from this segment continues to decline**, indicating they are likely to have left the brand.  
-
-**🔹 Recommendation:**  
-- **Send win-back emails with strong incentives** to encourage them to return.  
-- **Run a "come back" campaign with personalized messaging**, reminding them why they bought before.  
-- **Conduct exit surveys** to identify reasons for churn and improve the product or service.  
-- **Accept that some of this group is lost** and focus resources on High-Risk or Loyal customers to optimize ROI.  
-
+- Develop **onboarding strategies** to encourage repeat purchases.  
+- Run **nurturing campaigns** and offer **welcome incentives**.  
+- Leverage **reviews** to build trust and influence purchases.
 ###  B. Business Recommendation
 
 In SuperStore's retail model, where the RFM (Recency, Frequency, Monetary) model is used for customer segmentation and marketing strategies, the primary **focus should be on Frequency (F)**.
