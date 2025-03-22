@@ -10,13 +10,13 @@
 
 ## 📑 Table of Contents 
 
-[📌 1. Background & Overview](#1-background--overview)  
-[📂 2. Dataset Description & Data Structure](#2-dataset-description--data-structure)  
-[🧹 3. Data Cleaning & Preprocessing](#3-data-cleaning--preprocessing)  
+[📌 1. Background & Overview](#1-background-overview)  
+[📂 2. Dataset Description & Data Structure](#2-dataset-description-data-structure)  
+[🧹 3. Data Cleaning & Preprocessing](#3-data-cleaning-preprocessing)  
 [🔍 4. Exploratory Data Analysis (EDA)](#4-exploratory-data-analysis-eda)  
 [🧮 5. Apply RFM Model](#5-apply-rfm-model)  
-[📊 6. Visualization & Analysis](#6-visualization--analysis)  
-[💡 7. Insight & Recommendation](#7-insight--recommendation)
+[📊 6. Visualization & Analysis](#6-visualization-analysis)  
+[💡 7. Insight & Recommendation](#7-insight-recommendation)
 
 ## 1. 📌 Background & Overview
 
@@ -525,10 +525,6 @@ Based on the above analysis, we can see that some segments share similar charact
 - Leverage **reviews** to build trust and influence purchases.
 
 ###  B. Business Recommendation
-
-In SuperStore's retail model, where the RFM (Recency, Frequency, Monetary) model is used for customer segmentation and marketing strategies, the primary **focus should be on Frequency (F)**.
-
-**B. Business Recommendation**
 
 In SuperStore's retail model, the **RFM (Recency, Frequency, Monetary)** model is key for segmentation and marketing strategies, with a primary focus on **Frequency (F)**.
 
