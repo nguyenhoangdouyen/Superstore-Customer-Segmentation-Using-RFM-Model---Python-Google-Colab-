@@ -1,4 +1,4 @@
-# **📊 Superstore Customer Segmentation Using RFM Model (Python - Colab)** #
+# 🛒 Customer Segmentation For Marketing Campaigns in A Retail Global SuperStore | Python
 
 ![image](https://github.com/user-attachments/assets/b90b73a6-aaa6-44ad-9749-a798ebaf4632)
 
