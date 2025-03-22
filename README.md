@@ -10,13 +10,13 @@
 
 ## 📑 Table of Contents 
 
-[📌 Background & Overview](#background--overview)  
-[📂 Dataset Description & Data Structure](#dataset-description--data-structure)  
-[🧹 Data Cleaning & Preprocessing](#data-cleaning--preprocessing)  
-[🔍 Exploratory Data Analysis (EDA)](#exploratory-data-analysis-eda)  
-[🧮 Apply RFM Model](#apply-rfm-model)  
-[📊 Visualization & Analysis](#visualization--analysis)  
-[💡 Insight & Recommendation](#insight--recommendation)
+[📌 1. Background & Overview](#1-background-overview)  
+[📂 2. Dataset Description & Data Structure](#2-dataset-description-data-structure)  
+[🧹 3. Data Cleaning & Preprocessing](#3-data-cleaning-preprocessing)  
+[🔍 4. Exploratory Data Analysis (EDA)](#4-exploratory-data-analysis-eda)  
+[🧮 5. Apply RFM Model](#5-apply-rfm-model)  
+[📊 6. Visualization & Analysis](#6-visualization-analysis)  
+[💡 7. Insight & Recommendation](#7-insight-recommendation)
 
 ## 1. 📌 Background & Overview
 
