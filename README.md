@@ -10,14 +10,13 @@
 
 ## 📑 Table of Contents 
 
-## 📌 [Background & Overview](#background--overview)
-## 📂 [Dataset Description & Data Structure](#dataset-description--data-structure)
-## 🧹 [Data Cleaning & Preprocessing](#data-cleaning--preprocessing)
-## 🔍 [Exploratory Data Analysis (EDA)](#exploratory-data-analysis-eda)
-## 🧮 [Apply RFM Model](#apply-rfm-model)
-## 📊 [Visualization & Analysis](#visualization--analysis)
-## 💡 [Insight & Recommendation](#insight--recommendation)
-
+[📌 Background & Overview](#background--overview)  
+[📂 Dataset Description & Data Structure](#dataset-description--data-structure)  
+[🧹 Data Cleaning & Preprocessing](#data-cleaning--preprocessing)  
+[🔍 Exploratory Data Analysis (EDA)](#exploratory-data-analysis-eda)  
+[🧮 Apply RFM Model](#apply-rfm-model)  
+[📊 Visualization & Analysis](#visualization--analysis)  
+[💡 Insight & Recommendation](#insight--recommendation)
 
 ## 📌 Background & Overview 
 
@@ -239,7 +238,7 @@ missing_ecommerce = pd.DataFrame.from_dict(missing_dict)
 print(missing_ecommerce)
 ```
 
-[Out 15]:
+[Out 6]:
 ![Image](https://github.com/user-attachments/assets/35e54952-05be-4430-8115-45d1337d7b0b)
 
 ![Image](https://github.com/user-attachments/assets/184f9ea7-024a-497b-90ec-58a849535aee)
@@ -261,7 +260,7 @@ Since **CustomerID is essential**, drop missing values to maintain data integrit
 
 ### 🛠 Step 4. Handle duplicate**
 
-[In 16]: 
+[In 7]: 
 
 ```python
 # Identify duplicate rows based on 'InvoiceNo', 'StockCode', 'InvoiceDate', and 'CustomerID'
@@ -281,7 +280,7 @@ The result (10038, 12) means there are 10,038 duplicate rows, and they need to b
 
 #### 🛠 Step 1. Calculate RFM Score
 
-[In 20]:
+[In 8]:
 
 ```python
 #Calculate the last transaction date  
@@ -301,7 +300,8 @@ RFM_df
 ```
 
 **🔍 Check outlier**
-[In 21]:
+
+[In 9]:
 
 ```python
 # Check outliers for the 'Recency' column
@@ -313,7 +313,7 @@ sns.boxplot(data=RFM_df, x='Monetary')
 # Check outliers for the 'Frequency' column
 sns.boxplot(data=RFM_df, x='Frequency')
 ```
-[Out 21]:
+[Out 9]:
 
 ![Image](https://github.com/user-attachments/assets/dd08a423-d0da-43a5-bbfe-24ddf6c85bcf)
 
@@ -322,7 +322,8 @@ We set a 95% threshold for **Recency**, **Frequency**, and **Monetary** to remov
 
 **🔍Assign RFM scores using Qcut** 
 
-[In 24]:
+[In 10]:
+
 ```python
 # Recency score: Lower values indicate more recent purchases, so assign higher scores to lower recency values  
 RFM_update['R_score'] = pd.qcut(RFM_update['Recency'], 5, labels=range(5, 0, -1), duplicates='drop').astype(int)  
@@ -343,7 +344,8 @@ RFM_update['RFM'] = (
 
 **🔍Process the segmentation table & merge with RFM_df**
 
-[In 25]:
+[In 11]:
+
 ```python
 # Flatten the segmentation table by splitting the 'RFM Score' column  
 segmentation['RFM Score'] = segmentation['RFM Score'].astype(str).str.split(',')
@@ -358,32 +360,32 @@ RFM_final = RFM_update.merge(segmentation, how='left', left_on='RFM', right_on='
 # Display the final RFM segmentation table  
 RFM_final
 ```
-[Out 25]:
+[Out 11]:
 
 ![Image](https://github.com/user-attachments/assets/e597bac7-f7f6-4cce-baf6-2108d3d2b177)
 
 
 ## 📊 Visualization & Analysis
 
-#### **1. Contribution by Segmentation**
+### **1. Contribution by Segmentation
 
 ![image](https://github.com/user-attachments/assets/3ab19206-d207-4783-8dfb-fd9c150295cc)
 
-#### 2. Segmentation by Spending 
+### 2. Segmentation by Spending 
 
 ![image](https://github.com/user-attachments/assets/7eddbdd6-271c-4ccf-9fe5-21f615ebee93)
 
-#### 3. Segmentation by Frequency
+### 3. Segmentation by Frequency
 
 ![image](https://github.com/user-attachments/assets/45dd4769-edb2-40d4-9292-08ad1074becc)
 
-#### 4. Segmentation by Recency**
+### 4. Segmentation by Recency
 
 ![image](https://github.com/user-attachments/assets/98b9e2f0-aa9e-43a0-98b2-0486db1603dd)
 
 --- 
 
-### **📊 Observations **
+### 📊 Observations 
 
 From the four analysis charts on contribution, monetary, recency, and frequency for each segment, we can analyze the behavior of the 11 segments as follows:
 
@@ -407,7 +409,7 @@ From the four analysis charts on contribution, monetary, recency, and frequency 
 
 Based on the above analysis, we can see that some segments share similar characteristics. Therefore, we can group them into segment clusters for easier analysis and to propose suitable strategies as follows:
 
-**Group 1: High-Risk Customers (24%)**  
+### Group 1: High-Risk Customers (24%)
 
 📌 **Includes:** Cannot Lose Them (3%), At Risk (11%), About to Sleep (4%), Need Attention (6%)  
 
@@ -417,7 +419,7 @@ Based on the above analysis, we can see that some segments share similar charact
 - Without intervention, they **are likely to leave completely**.  
 
 
-**Group 2: Loyal & High-Value Customers (38%)**  
+### Group 2: Loyal & High-Value Customers (38%)
 
 📌 **Includes:** Champions (17%), Loyal (9%), Potential Loyalist (12%)  
 
@@ -426,7 +428,7 @@ Based on the above analysis, we can see that some segments share similar charact
 - They **remain highly active**, with **a relatively short time since their last purchase (10 - 50 days)**.  
 - Although their **revenue contribution varies**, they all **have long-term potential if nurtured properly**.  
 
-**Group 3: New & Potential Customers (25%)**  
+### Group 3: New & Potential Customers (25%)
 
 📌 **Includes:** New Customers (17%), Promising (8%)  
 
@@ -435,7 +437,7 @@ Based on the above analysis, we can see that some segments share similar charact
 - They have **recent interactions (30 - 50 days)** but **low purchase frequency and revenue contribution**.  
 - They **have the potential to become loyal customers if they continue purchasing**.  
 
-**Group 4: Inactive & Lost Customers (13%)**  
+### Group 4: Inactive & Lost Customers (13%) 
 
 📌 **Includes:** Hibernating (9%), Lost Customers (4%)  
 
@@ -443,7 +445,7 @@ Based on the above analysis, we can see that some segments share similar charact
 - These customers are **almost entirely disengaged**, with **a very long time since their last purchase (200+ days)**.  
 - **Their purchase frequency and revenue contribution are extremely low**, making them **unlikely to return without strong intervention**.  
 
-**5. Distribution of RFM over Time**
+### 5. Distribution of RFM over Time
 
 ![image](https://github.com/user-attachments/assets/31f9cf39-bc39-4ae6-9b91-f4e75fda2db3)
 
@@ -459,21 +461,21 @@ Based on the above analysis, we can see that some segments share similar charact
 
 - **Monetary:** This metric exhibits **significant fluctuations**, with **sharp peaks and dips**. This indicates that the **monetary value spent by customers is not stable**, potentially due to **promotional campaigns, seasonal effects, or changes in purchasing behavior**.  
 
-#### ➡️ **Further analysis is needed** to determine **which segments** are driving these increases and decreases.
+➡️ **Further analysis is needed** to determine **which segments** are driving these increases and decreases.
 
-#### 6. Group Segment by Contribution
+### 6. Group Segment by Contribution
 
 ![image](https://github.com/user-attachments/assets/0ce9df4f-60fa-4579-a84c-28972a6573e2)
 
-#### 7. Segment Distribution Across Countries
+### 7. Segment Distribution Across Countries
 
 ![image](https://github.com/user-attachments/assets/efc0d66f-e3e6-4c4a-808b-43c4dce3dff1)
 
-#### 8. Segmentation Distribution Over Time
+### 8. Segmentation Distribution Over Time
 
 ![image](https://github.com/user-attachments/assets/c9067fb5-d8ff-4dee-9f22-9a4c18d6f887)
 
-#### 9. Trend of Recency, Frequency, Monetary by Month
+### 9. Trend of Recency, Frequency, Monetary by Month
 
 ![image](https://github.com/user-attachments/assets/ae538626-3639-40e8-b916-a6dcfccea2ee)
 
