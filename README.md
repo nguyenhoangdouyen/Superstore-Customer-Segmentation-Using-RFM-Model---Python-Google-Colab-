@@ -38,15 +38,12 @@
 
 **🔎 Why use RFM?**  
 
-RFM (Recency, Frequency, Monetary) is a customer analysis technique based on purchasing behavior.  
+RFM (Recency, Frequency, Monetary) is a customer analysis technique based on purchasing behavior. In RFM analysis, each customer is assigned a score based on these three factors. The data is then used to categorize customers into segments, helping businesses identify key audiences for targeted marketing and sales strategies.  
+
 - **Recency**: Measures the time elapsed since a customer's last purchase.  
 - **Frequency**: Evaluates how often a customer makes transactions.  
 - **Monetary**: Calculates the total amount spent by the customer.  
 By applying RFM, businesses can segment customers based on their value, allowing them to optimize marketing and customer engagement strategies.  
-
-**🛠️ How does RFM work?**
-
-In RFM analysis, each customer is assigned a score based on these three factors. The data is then used to categorize customers into segments, helping businesses identify key audiences for targeted marketing and sales strategies.  
 
 ## 📂 Dataset Description & Data Structure  
 
@@ -66,6 +63,9 @@ The dataset consists of **two tables (sheets)**:
 #### 📌 Sheet 1: E-commerce Retail  
 ### 📋 Table Schema: E-commerce Retail  
 
+<details>
+  <summary>📂 **Dataset Schema** (Click to expand)</summary>
+
 | Column Name  | Data Type         | Description  |  
 |-------------|-----------------|--------------|  
 | **InvoiceNo**  | `object`  | Unique invoice number for each transaction (6-digit). If it starts with 'C', it indicates a cancellation. |  
@@ -76,10 +76,14 @@ The dataset consists of **two tables (sheets)**:
 | **UnitPrice**  | `float64`  | Price per unit of the product in sterling. |  
 | **CustomerID**  | `float64`  | Unique 5-digit identifier for each customer. |  
 | **Country**  | `object`  | Name of the country where the customer resides. |  
-- Key columns: `InvoiceNo`, `StockCode`, `Description`, `Quantity`, `InvoiceDate`, `UnitPrice`, `CustomerID`, `Country`.  
+
+</details>
 
 #### 📌 Sheet 2: Segmentation  
 ### 📊 Customer Segmentation & RFM Scores  
+
+<details>
+  <summary>📊 **RFM Segmentation Mapping** (Click to expand)</summary>
 
 | **Segment**              | **RFM Score**  |  
 |-------------------------|-----------------------------------------------------------|  
@@ -93,7 +97,10 @@ The dataset consists of **two tables (sheets)**:
 | **At Risk**              | 255, 254, 245, 244, 253, 252, 243, 242, 235, 234, 225, 224, 153, 152, 145, 143, 142, 135, 134, 133, 125, 124  |  
 | **Cannot Lose Them**     | 155, 154, 144, 214, 215, 115, 114, 113  |  
 | **Hibernating Customers** | 332, 322, 233, 232, 223, 222, 132, 123, 122, 212, 211  |  
-| **Lost Customers**       | 111, 112, 121, 131, 141, 151  |  
+| **Lost Customers**       | 111, 112, 121, 131, 141, 151   |
+
+</details>
+|  
 - Key columns: `Segment`, `RFM Score`.
 
 ## ⚒️ **Main Process** ##
